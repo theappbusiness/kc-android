@@ -3,7 +3,7 @@
 King's Cross App
 ===============
 
-![King's Cross](./kc1.png) ![King's Cross](./kc2.png)
+![King's Cross](./art/kc1.png) ![King's Cross](./art/kc2.png)
 
 What is this?
 ------------
