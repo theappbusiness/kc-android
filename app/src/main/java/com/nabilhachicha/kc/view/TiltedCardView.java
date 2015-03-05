@@ -144,6 +144,10 @@ public class TiltedCardView extends View {
     private int titleTextSize, descriptionTextSize;
     private int mColorTitle, mColorDescription;
 
+    public TiltedCardView(Context context){
+        super(context);
+    }
+
     public TiltedCardView(Context context, OnPoiClickedListener listener) {
         super(context);
 
