@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.home.jamesclasses.deleteme.RecyclerAdapter;
@@ -24,6 +25,8 @@ public class SlidingTabsFragment extends Fragment {
 
     private Toolbar mToolbar;
     private ImageButton mFabButton;
+
+    private LinearLayout header;
 
     private SlidingTabLayout mSlidingTabLayout;
 
@@ -41,6 +44,8 @@ public class SlidingTabsFragment extends Fragment {
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle("App Name");
 
+        header = (LinearLayout) view.findViewById(R.id.header_toolbar);
+
 //        mFabButton = (ImageButton) view.findViewById(R.id.fabButton);
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
@@ -54,6 +59,9 @@ public class SlidingTabsFragment extends Fragment {
     }
 
 
+    /**
+     * Pager item
+     */
     class SamplePagerAdapter extends PagerAdapter {
 
         @Override

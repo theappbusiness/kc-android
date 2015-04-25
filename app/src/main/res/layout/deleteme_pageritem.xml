@@ -8,8 +8,8 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-        <!--android:clipToPadding="false"-->
-        <!--android:paddingTop="?attr/actionBarSize" />-->
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="100dp" />
 
 </LinearLayout>
