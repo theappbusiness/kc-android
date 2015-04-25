@@ -84,6 +84,7 @@
                     android:background="#e1e1e1" />
 
                 <TextView
+                    android:id="@+id/textOpeningTimes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_times"
@@ -94,6 +95,7 @@
                     android:text="Opening Times" />
 
                 <TextView
+                    android:id="@+id/textPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_phone"
@@ -101,9 +103,11 @@
                     android:drawableStart="@drawable/ic_phone"
                     android:gravity="center_vertical"
                     android:padding="16dp"
-                    android:text="+44 122 123 4123" />
+                    tools:text="+44 122 123 4123"
+                    android:onClick="callIntent"/>
 
                 <TextView
+                    android:id="@+id/textWebsite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_website"
@@ -111,7 +115,8 @@
                     android:drawableStart="@drawable/ic_website"
                     android:gravity="center_vertical"
                     android:padding="16dp"
-                    android:text="www.hungry.com" />
+                    tools:text="www.hungry.com"
+                    android:onClick="browseIntent"/>
 
             </LinearLayout>
 
@@ -131,7 +136,7 @@
                     tools:ignore="MissingPrefix" />
 
                 <TextView
-                    android:id="@+id/address"
+                    android:id="@+id/textAddress"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"

@@ -16,6 +16,8 @@
 
 package com.nabilhachicha.kc.items;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -48,9 +50,16 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
     @Inject
     Picasso mPicasso;
 
-    ImageView mItemImg;
-    TextView mTextName, mTextDescription, mTextCommentary;
-    Venue mVenue;
+    private Venue mVenue;
+
+    private ImageView mImageView;
+    private TextView mTextName;
+    private TextView mTextDescription;
+    private TextView mTextCommentary;
+    private TextView mTextOpeningTimes;
+    private TextView mTextPhone;
+    private TextView mTextWebsite;
+    private TextView mTextAddress;
 
     private Toolbar mToolbar;
 
@@ -73,25 +82,30 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
             finish();
         });
 
-        mItemImg = (ImageView) findViewById(R.id.itemImg);
+        mImageView = (ImageView) findViewById(R.id.itemImg);
         mTextName = (TextView) findViewById(R.id.textName);
         mTextDescription = (TextView) findViewById(R.id.textDescription);
         mTextCommentary = (TextView) findViewById(R.id.textCommentary);
+        mTextOpeningTimes = (TextView) findViewById(R.id.textOpeningTimes);
+        mTextPhone = (TextView) findViewById(R.id.textPhone);
+        mTextWebsite = (TextView) findViewById(R.id.textWebsite);
+        mTextAddress = (TextView) findViewById(R.id.textAddress);
 
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        mPicasso.load(mVenue.getImageUrl()).resize(screenWidth, screenWidth).centerInside().into(mItemImg);
+        mPicasso.load(mVenue.getImageUrl()).resize(screenWidth, screenWidth).centerInside().into(mImageView);
         mTextName.setText(mVenue.getName());
         mTextDescription.setText(mVenue.getDescription());
         mTextCommentary.setText(mVenue.getCommentary().trim());
+        mTextOpeningTimes.setText(mVenue.getOpeningTimes());
+        mTextPhone.setText(mVenue.getPhoneNumber());
+        mTextWebsite.setText(mVenue.getWebsite());
+        mTextAddress.setText(mVenue.getAddress());
 
         findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / ASPECT_RATIO);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-//        Fragment mMapFragment = getFragmentManager().findFragmentById(R.id.map);
-//        mMapFragment.setW
 
     }
 
@@ -120,4 +134,15 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         MapUtils.startMapIntent(mVenue, this);
     }
 
+    public void callIntent(View view) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + mVenue.getPhoneNumber()));
+        startActivity(intent);
+    }
+
+    public void browseIntent(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(mVenue.getWebsite()));
+        startActivity(intent);
+    }
 }
