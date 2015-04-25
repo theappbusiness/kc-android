@@ -82,7 +82,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         mPicasso.load(mPOI.getImgUrl()).resize(screenWidth, screenWidth).centerInside().into(mItemImg);
         mTextName.setText(mPOI.getName());
         mTextDescription.setText(mPOI.getDescription());
-        mTextCommentary.setText(mPOI.getCommentary());
+        mTextCommentary.setText(mPOI.getCommentary().trim());
 
         findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / ASPECT_RATIO);
 
