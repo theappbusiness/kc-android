@@ -21,6 +21,9 @@ import android.app.Application;
 
 import com.nabilhachicha.kc.KcApp;
 import com.nabilhachicha.kc.home.StaggeredGridActivity;
+import com.nabilhachicha.kc.home.jamesclasses.viewpager.SlidingTabsFragment;
+import com.nabilhachicha.kc.items.ItemDetailActivity;
+import com.nabilhachicha.kc.items.itemlist.ItemsFragment;
 
 import javax.inject.Singleton;
 
@@ -36,6 +39,10 @@ import dagger.Provides;
         },
         injects = {
                 KcApp.class,
+                StaggeredGridActivity.class,
+                ItemDetailActivity.class,
+                ItemsFragment.class,
+                SlidingTabsFragment.class,
                 StaggeredGridActivity.class
         }
 )

@@ -2,4 +2,8 @@
     <color name="list_separator">#C0C0C0</color>
     <color name="tiltedview_title">@android:color/white</color>
     <color name="tiltedview_description">@android:color/white</color>
+
+    <color name="primary">#FF3388</color>
+    <color name="secondary">#FF8833</color>
+    <color name="details_floating_button">#ff4200</color>
 </resources>
