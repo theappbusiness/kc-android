@@ -20,8 +20,6 @@ package com.nabilhachicha.kc.di;
 import android.app.Application;
 
 import com.nabilhachicha.kc.KcApp;
-import com.nabilhachicha.kc.items.ItemDetailActivity;
-import com.nabilhachicha.kc.items.ItemsActivity;
 import com.nabilhachicha.kc.home.StaggeredGridActivity;
 
 import javax.inject.Singleton;
@@ -38,9 +36,7 @@ import dagger.Provides;
         },
         injects = {
                 KcApp.class,
-                StaggeredGridActivity.class,
-                ItemsActivity.class,
-                ItemDetailActivity.class
+                StaggeredGridActivity.class
         }
 )
 public final class KcModule {

@@ -19,13 +19,12 @@ package com.nabilhachicha.kc.data;
 import android.app.Application;
 
 import com.nabilhachicha.kc.model.Category;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.model.Venue;
 import com.snappydb.DB;
 import com.snappydb.SnappyDB;
 import com.snappydb.SnappydbException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import rx.Observable;
@@ -48,49 +47,40 @@ public final class DatabaseImpl implements Database {
     }
 
     @Override
-    public POI savePoi(POI poi) {
+    public Venue saveVenue(Venue venue) {
         synchronized (snappydb) {
-            String key = "tag:" + poi.getCategory() + ":poi:" + poi.getId();
+            String key = "tag:" + venue.getCategoryId() + ":poi:" + venue.getId();
             try {
-                snappydb.put(key, poi);
+                snappydb.put(key, venue);
 
             } catch (SnappydbException e) {
                 e.printStackTrace();
                 Observable.error(e);
             }
-            return poi;
+            return venue;
         }
     }
 
     @Override
-    public List<POI> getPois(String category, POI.Sort... sort) {
+    public List<Venue> getVenues(String category) {
         synchronized (snappydb) {
-            ArrayList<POI> pois = new ArrayList<>();
+            ArrayList<Venue> venues = new ArrayList<>();
 
             try {
                 for (String key : snappydb.findKeys("tag:" + category + ":poi:")) {
-                    pois.add(snappydb.get(key, POI.class));
+                    venues.add(snappydb.get(key, Venue.class));
                 }
-
-                // sort
-                if (null != sort && sort.length > 0) {// Use provided sort
-                    Collections.sort(pois, sort[0].getComparator());
-
-                } else {//Use default sort
-                    Collections.sort(pois, POI.Sort.BY_NAME.getComparator());
-                }
-
             } catch (SnappydbException e) {
                 e.printStackTrace();
             }
 
-            return pois;
+            return venues;
 
         }
     }
 
     @Override
-    public List<Category> getCategories(Category.Sort... sort) {
+    public List<Category> getCategories() {
         synchronized (snappydb) {
             ArrayList<Category> categories = new ArrayList<>();
 
@@ -98,15 +88,6 @@ public final class DatabaseImpl implements Database {
                 for (String key : snappydb.findKeys("category:")) {
                     categories.add(snappydb.get(key, Category.class));
                 }
-
-                // sort
-                if (null != sort && sort.length > 0) {// Use provided sort
-                    Collections.sort(categories, sort[0].getComparator());
-
-                } else {//Use default sort
-                    Collections.sort(categories, Category.Sort.BY_POSITION.getComparator());
-                }
-
             } catch (SnappydbException e) {
                 e.printStackTrace();
             }
@@ -158,7 +139,7 @@ public final class DatabaseImpl implements Database {
     }
 
     @Override
-    public void deletePois() {
+    public void deleteVenues() {
         synchronized (snappydb) {
             try {
                 for (String key : snappydb.findKeys("tag:")) {
@@ -169,4 +150,5 @@ public final class DatabaseImpl implements Database {
             }
         }
     }
+
 }

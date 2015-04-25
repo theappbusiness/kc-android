@@ -18,7 +18,7 @@
 package com.nabilhachicha.kc.di;
 
 import com.nabilhachicha.kc.BuildConfig;
-import com.nabilhachicha.kc.service.BackendService;
+import com.nabilhachicha.kc.service.BackendOperations;
 import com.squareup.okhttp.OkHttpClient;
 
 import javax.inject.Singleton;
@@ -35,8 +35,8 @@ import retrofit.client.OkClient;
  * Created by Nabil Hachicha on 06/12/14.
  */
 @Module(
-    complete = false,
-    library = true
+        complete = false,
+        library = true
 )
 public final class ApiModule {
     public static final String PRODUCTION_API_URL = BuildConfig.BACKEND_ENDPOINT;
@@ -47,12 +47,14 @@ public final class ApiModule {
         return Endpoints.newFixedEndpoint(PRODUCTION_API_URL);
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     Client provideClient(OkHttpClient client) {
         return new OkClient(client);
     }
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     RestAdapter provideRestAdapter(Endpoint endpoint, Client client) {
         return new RestAdapter.Builder() //
                 .setClient(client) //
@@ -61,9 +63,9 @@ public final class ApiModule {
                 .build();
     }
 
-    @Provides @Singleton
-    BackendService provideGalleryService(RestAdapter restAdapter) {
-        return restAdapter.create(BackendService.class);
+    @Provides
+    @Singleton
+    BackendOperations provideNewBackendService(RestAdapter restAdapter) {
+        return restAdapter.create(BackendOperations.class);
     }
-
 }
