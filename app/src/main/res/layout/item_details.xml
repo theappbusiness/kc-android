@@ -24,6 +24,14 @@
                     android:layout_height="wrap_content"
                     android:minHeight="200dp" />
 
+                <!-- TODO do not scroll toolbar (we need to handle toolbar transparency change on scroll first) -->
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="16dp" />
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -148,10 +156,4 @@
         fab:button_color="@color/details_floating_button"
         fab:image="@drawable/ic_action_directions"
         fab:shadow_yOffset="3dp" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"/>
 </FrameLayout>
