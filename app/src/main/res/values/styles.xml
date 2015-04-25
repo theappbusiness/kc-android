@@ -16,9 +16,13 @@
         <item name="tv_descriptionColor">@color/tiltedview_description</item>
         <item name="tv_titleTextSize">@dimen/tiltedview_title</item>
         <item name="tv_descriptionTextSize">@dimen/tiltedview_description</item>
-
-
     </style>
+
+    <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/secondary</item>
+    </style>
+
 
     <style name="Widget.U2020.GalleryImage" parent="None">
         <item name="android:textColor">#fff</item>
