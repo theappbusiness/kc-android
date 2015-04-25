@@ -7,15 +7,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nabilhachicha.kc.KcApp;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.model.POI;
 import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * Created by stephencolias on 25/04/15.
@@ -23,7 +19,7 @@ import javax.inject.Inject;
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
     private List<POI> mDataset;
 
-   private Picasso mPicasso;
+    private Picasso mPicasso;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -67,11 +63,7 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
         POI poi = mDataset.get(position);
         holder.mTitleTextView.setText(poi.getName());
         holder.mDescriptionTextView.setText(poi.getDescription());
-        try {
-            holder.mImageView.setImageBitmap(mPicasso.load(poi.getImgUrl()).get());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        mPicasso.with(holder.mImageView.getContext()).load(poi.getImgUrl()).into(holder.mImageView);
     }
 
     // Return the size of your dataset (invoked by the layout manager)

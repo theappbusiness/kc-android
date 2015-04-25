@@ -81,6 +81,11 @@ public class ItemsFragment extends BaseFragment {
 
     private void initAdapter() {
         List<POI> pois = mDatabase.getPois(getArguments().getString(CATEGORY_KEY), POI.Sort.BY_NAME);
+        POI poi = new POI();
+        poi.setName("test");
+        poi.setDescription("test2");
+        poi.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+        pois.add(poi);
         mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 
