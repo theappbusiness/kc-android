@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nabilhachicha.kc.KcApp;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.model.POI;
 import com.squareup.picasso.Picasso;
@@ -22,8 +23,7 @@ import javax.inject.Inject;
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
     private List<POI> mDataset;
 
-    @Inject
-    Picasso mPicasso;
+   private Picasso mPicasso;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -43,8 +43,9 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public ItemsRecyclerAdapter(List<POI> myDataset) {
+    public ItemsRecyclerAdapter(List<POI> myDataset, Picasso picasso) {
         mDataset = myDataset;
+        mPicasso = picasso;
     }
 
     // Create new views (invoked by the layout manager)

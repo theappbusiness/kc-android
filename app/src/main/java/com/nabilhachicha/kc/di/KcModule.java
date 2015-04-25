@@ -23,6 +23,7 @@ import com.nabilhachicha.kc.KcApp;
 import com.nabilhachicha.kc.items.ItemDetailActivity;
 import com.nabilhachicha.kc.items.ItemsActivity;
 import com.nabilhachicha.kc.home.StaggeredGridActivity;
+import com.nabilhachicha.kc.items.itemlist.ItemsFragment;
 
 import javax.inject.Singleton;
 
@@ -40,7 +41,8 @@ import dagger.Provides;
                 KcApp.class,
                 StaggeredGridActivity.class,
                 ItemsActivity.class,
-                ItemDetailActivity.class
+                ItemDetailActivity.class,
+                ItemsFragment.class
         }
 )
 public final class KcModule {

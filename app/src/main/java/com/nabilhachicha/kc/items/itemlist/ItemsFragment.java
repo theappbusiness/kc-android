@@ -8,10 +8,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.nabilhachicha.kc.KcApp;
 import com.nabilhachicha.kc.R;
+import com.nabilhachicha.kc.data.Database;
+import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.view.BaseFragment;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
+
+import javax.inject.Inject;
 
 
-public class ItemsFragment extends Fragment {
+public class ItemsFragment extends BaseFragment {
+
+    private static final String CATEGORY_KEY = "category";
+
+    @Inject
+    Database mDatabase;
+
+    @Inject
+    Picasso mPicasso;
 
     private RecyclerView.Adapter mAdapter;
 
@@ -20,10 +37,14 @@ public class ItemsFragment extends Fragment {
      */
     private RecyclerView mRecyclerView;
 
-    // TODO: Rename and change types of parameters
-    public static ItemsFragment newInstance(String param1, String param2) {
+
+    public ItemsFragment() {
+    }
+
+    public static ItemsFragment newInstance(String category) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle args = new Bundle();
+        args.putString(CATEGORY_KEY, category);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,10 +70,18 @@ public class ItemsFragment extends Fragment {
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
+        // Init the adapter
+        initAdapter();
+
         // Set the adapter
         mRecyclerView.setAdapter(mAdapter);
 
         return view;
+    }
+
+    private void initAdapter() {
+        List<POI> pois = mDatabase.getPois(getArguments().getString(CATEGORY_KEY), POI.Sort.BY_NAME);
+        mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 
 }
