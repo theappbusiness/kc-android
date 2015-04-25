@@ -1,33 +1,52 @@
 package com.nabilhachicha.kc.home.jamesclasses.viewpager;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.nabilhachicha.kc.R;
-import com.nabilhachicha.kc.items.itemlist.ItemsFragment;
+import com.nabilhachicha.kc.data.Database;
+import com.nabilhachicha.kc.home.DataLoaderHelper;
+import com.nabilhachicha.kc.io.KcObservables;
+import com.nabilhachicha.kc.model.Category;
+import com.nabilhachicha.kc.service.BackendOperations;
+import com.nabilhachicha.kc.view.BaseFragment;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import rx.Observable;
 
 /**
  * Created by jamesscott on 02/03/15.
  */
-public class SlidingTabsFragment extends Fragment {
+public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<Category>> {
+    @Inject
+    BackendOperations mBackendOperations;
+
+    @Inject
+    Database mDatabase;
 
     private Toolbar mToolbar;
-    private ImageButton mFabButton;
-
     private LinearLayout header;
 
     private SlidingTabLayout mSlidingTabLayout;
 
     private ViewPager mViewPager;
+    private CategoriesPagerAdapter mAdapter;
+    private DataLoaderHelper mRxFlowHelper;
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mRxFlowHelper = new DataLoaderHelper(this);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,7 +66,8 @@ public class SlidingTabsFragment extends Fragment {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mViewPager.setAdapter(new SamplePagerAdapter(getActivity().getSupportFragmentManager()));
+        mAdapter = new CategoriesPagerAdapter(getActivity().getSupportFragmentManager());
+        mViewPager.setAdapter(mAdapter);
 
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
@@ -55,38 +75,48 @@ public class SlidingTabsFragment extends Fragment {
         mSlidingTabLayout.setViewPager(mViewPager);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mRxFlowHelper.onStart();
+    }
 
-    /**
-     * Pager item
-     */
-    class SamplePagerAdapter extends FragmentStatePagerAdapter {
-
-        public SamplePagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public int getCount() {
-            return 10;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "Category " + (position + 1);
-        }
-
-        @Override
-        public Fragment getItem(int i) {
-            return ItemsFragment.newInstance("mock");
-        }
+    @Override
+    public void onStop() {
+        mRxFlowHelper.onStop();
+        super.onStop();
+    }
 
 
-        public int getColorWithAlpha(float alpha, int baseColor) {
-            int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
-            int rgb = 0x00ffffff & baseColor;
-            return a + rgb;
-        }
+    @Override
+    public void showError() {
 
+    }
+
+    @Override
+    public void showContent(List<Category> data) {
+        mAdapter.setCategories(data);
+        mSlidingTabLayout.setViewPager(mViewPager);
+    }
+
+    @Override
+    public void updateContent(List<Category> data) {
+
+    }
+
+    @Override
+    public boolean isCacheAvailable() {
+        return false;
+    }
+
+    @Override
+    public List<Category> queryCache() {
+        return null;
+    }
+
+    @Override
+    public Observable<List<Category>> queryBackend() {
+        return KcObservables.getCategories(mBackendOperations, mDatabase);
     }
 
 }
