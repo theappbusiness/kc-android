@@ -1,17 +1,18 @@
 package com.nabilhachicha.kc.items.itemlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
 import com.nabilhachicha.kc.home.DataLoaderHelper;
 import com.nabilhachicha.kc.io.KcObservables;
+import com.nabilhachicha.kc.items.ItemDetailActivity;
 import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.service.BackendOperations;
 import com.nabilhachicha.kc.view.BaseFragment;
@@ -91,11 +92,11 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         super.onStop();
     }
 
-    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = new ItemsRecyclerAdapter.OnItemClickListener() {
-        @Override
-        public void onItemClick(Venue venue) {
-            Toast.makeText(getActivity(), "Item selected: " + venue.getName(), Toast.LENGTH_SHORT).show();
-        }
+    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = venue -> {
+        Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
+        intent.putExtra("item", venue);
+        startActivity(intent);
+        ;
     };
 
     @Override
