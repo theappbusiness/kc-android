@@ -52,10 +52,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
     private DataLoaderHelper mRxFlowHelper;
     private String mCategory;
 
-
-    public ItemsFragment() {
-    }
-
     public static ItemsFragment newInstance(String category) {
         ItemsFragment fragment = new ItemsFragment();
         Bundle args = new Bundle();
@@ -71,13 +67,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         mCategory = getArguments().getString(CATEGORY_KEY);
         mAdapter = new ItemsRecyclerAdapter(mPicasso);
         mAdapter.SetOnItemClickListener(onItemClickListener);
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        // Fetch remote data
-        mRxFlowHelper = new DataLoaderHelper(this);
     }
 
     @Override
@@ -105,12 +94,19 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.item_list);
-        mRecyclerView.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        // Fetch remote data
+        mRecyclerView.setAdapter(mAdapter);
+        mRxFlowHelper = new DataLoaderHelper(this);
     }
 
     @Override
