@@ -11,7 +11,6 @@ import android.widget.Toast;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
 import com.nabilhachicha.kc.home.DataLoaderHelper;
-import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.POI;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
@@ -62,10 +61,10 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Fetch remote data
-        mRxFlowHelper = new DataLoaderHelper(this);
         mCategory = getArguments().getString(CATEGORY_KEY);
         mAdapter = new ItemsRecyclerAdapter(mPicasso);
+        // Fetch remote data
+        mRxFlowHelper = new DataLoaderHelper(this);
     }
 
     @Override
@@ -122,6 +121,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
 
     @Override
     public Observable<List<POI>> queryBackend() {
-        return KcObservables.getItemsByCategory(mDatabase, mCategory);
+        return null;
     }
 }
