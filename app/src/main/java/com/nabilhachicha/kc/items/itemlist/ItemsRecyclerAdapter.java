@@ -18,11 +18,12 @@ import java.util.List;
  */
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
 
-    private List<POI> mDataset;
+    private static List<POI> mDataset;
     private Picasso mPicasso;
+    static OnItemClickListener mItemClickListener;
 
     // Provide a reference to the views for each data item
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
 
         public ImageView mImageView;
         public TextView mTitleTextView;
@@ -33,7 +34,25 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
             mImageView = (ImageView) itemLayoutView.findViewById(R.id.item_image);
             mTitleTextView = (TextView) itemLayoutView.findViewById(R.id.item_name);
             mDescriptionTextView = (TextView) itemLayoutView.findViewById(R.id.item_description);
+            itemLayoutView.setOnClickListener(this);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClick(mDataset.get(getPosition()));
+            }
+        }
+
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(POI poi);
+    }
+
+    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 
     public ItemsRecyclerAdapter(List<POI> myDataset, Picasso picasso) {

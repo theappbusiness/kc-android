@@ -24,7 +24,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".home.StaggeredGridActivity"
+            android:name=".items.itemlist.MainTestActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>

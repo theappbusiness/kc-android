@@ -30,7 +30,7 @@ public class ItemsFragment extends BaseFragment {
     @Inject
     Picasso mPicasso;
 
-    private RecyclerView.Adapter mAdapter;
+    private ItemsRecyclerAdapter mAdapter;
 
     /**
      * The recycle view
@@ -64,7 +64,16 @@ public class ItemsFragment extends BaseFragment {
 
         // Set the adapter
         mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.SetOnItemClickListener(onItemClickListener);
     }
+
+    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = new ItemsRecyclerAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(POI poi) {
+
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
