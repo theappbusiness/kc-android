@@ -11,7 +11,9 @@ import android.widget.Toast;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
 import com.nabilhachicha.kc.home.DataLoaderHelper;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.io.KcObservables;
+import com.nabilhachicha.kc.model.Venue;
+import com.nabilhachicha.kc.service.BackendOperations;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
 
@@ -21,11 +23,15 @@ import javax.inject.Inject;
 
 import retrofit.RestAdapter;
 import rx.Observable;
+import rx.schedulers.Schedulers;
 
 
-public class ItemsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<POI>> {
+public class ItemsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<Venue>> {
 
     private static final String CATEGORY_KEY = "category";
+
+    @Inject
+    BackendOperations mBackendOperations;
 
     @Inject
     RestAdapter mRestAdapter;
@@ -73,10 +79,22 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         mAdapter.SetOnItemClickListener(onItemClickListener);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        mRxFlowHelper.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        mRxFlowHelper.onStop();
+        super.onStop();
+    }
+
     ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = new ItemsRecyclerAdapter.OnItemClickListener() {
         @Override
-        public void onItemClick(POI poi) {
-            Toast.makeText(getActivity(), "Item selected: " + poi.getName(), Toast.LENGTH_SHORT).show();
+        public void onItemClick(Venue venue) {
+            Toast.makeText(getActivity(), "Item selected: " + venue.getName(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -87,6 +105,7 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.item_list);
+        mRecyclerView.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -100,27 +119,28 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
     }
 
     @Override
-    public void showContent(List<POI> data) {
-        mAdapter.replace(mDatabase.getPois(mCategory, POI.Sort.BY_NAME));
+    public void showContent(List<Venue> data) {
+        mAdapter.replace(data);
     }
 
     @Override
-    public void updateContent(List<POI> data) {
+    public void updateContent(List<Venue> data) {
         showContent(data);
     }
 
     @Override
     public boolean isCacheAvailable() {
-        return mDatabase.isEmpty();
+        //return mDatabase.isEmpty();
+        return false;
     }
 
     @Override
-    public List<POI> queryCache() {
-        return mDatabase.getPois(mCategory);
+    public List<Venue> queryCache() {
+        return mDatabase.getVenues(mCategory);
     }
 
     @Override
-    public Observable<List<POI>> queryBackend() {
-        return null;
+    public Observable<List<Venue>> queryBackend() {
+        return KcObservables.getItemsByCategory(mBackendOperations, mDatabase, mCategory).subscribeOn(Schedulers.io());
     }
 }

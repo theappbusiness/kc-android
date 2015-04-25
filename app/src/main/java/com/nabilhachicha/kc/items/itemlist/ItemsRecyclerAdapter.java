@@ -11,9 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nabilhachicha.kc.R;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.model.Venue;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +22,7 @@ import java.util.List;
  */
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
 
-    private static List<POI> mDataset;
+    private static List<Venue> mDataset = new ArrayList<>();
     private Picasso mPicasso;
 
     static OnItemClickListener mItemClickListener;
@@ -29,14 +30,14 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     // Allows to remember the last item shown on screen
     private int lastPosition = -1;
 
-    public void replace(List<POI> pois) {
-        mDataset = pois;
+    public void replace(List<Venue> venues) {
+        mDataset = venues;
         notifyDataSetChanged();
     }
 
 
     // Provide a reference to the views for each data item
-    public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView mImageView;
         public TextView mTitleTextView;
@@ -63,7 +64,7 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     }
 
     public interface OnItemClickListener {
-        void onItemClick(POI poi);
+        void onItemClick(Venue venue);
     }
 
     public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -90,10 +91,10 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from the dataset at this position
         // - replace the contents of the view with this element
-        POI poi = mDataset.get(position);
-        holder.mTitleTextView.setText(poi.getName());
-        holder.mDescriptionTextView.setText(poi.getDescription());
-        mPicasso.with(holder.mImageView.getContext()).load(poi.getImgUrl()).into(holder.mImageView);
+        Venue venue = mDataset.get(position);
+        holder.mTitleTextView.setText(venue.getName());
+        holder.mDescriptionTextView.setText(venue.getDescription());
+        mPicasso.with(holder.mImageView.getContext()).load(venue.getImageUrl()).into(holder.mImageView);
         setAnimation(holder.mContainer, position);
     }
 
@@ -106,11 +107,9 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     /**
      * Here is the key method to apply the animation
      */
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), R.anim.slide_in_from_bottom);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
