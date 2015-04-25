@@ -38,16 +38,6 @@
             android:name="com.crashlytics.ApiKey"
             android:value="495cb7d8ea2661a24b8ca53ca19612f9ab22f206" />
 
-        <activity
-            android:name=".items.ItemsActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
-            android:name=".items.ItemDetailActivity"
-            android:screenOrientation="portrait">
-        </activity>
-
 
         <!-- Google Maps API Key-->
         <meta-data
