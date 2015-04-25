@@ -14,6 +14,7 @@ import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.model.Venue;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,17 +22,22 @@ import java.util.List;
  */
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
 
-    private static List<Venue> mDataset;
+    private static List<Venue> mDataset = new ArrayList<>();
     private Picasso mPicasso;
 
-    private OnItemClickListener mItemClickListener;
+    static OnItemClickListener mItemClickListener;
 
     // Allows to remember the last item shown on screen
-    private int mLastPosition = -1;
+    private int lastPosition = -1;
+
+    public void replace(List<Venue> venues) {
+        mDataset = venues;
+        notifyDataSetChanged();
+    }
 
 
     // Provide a reference to the views for each data item
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView mImageView;
         public TextView mTitleTextView;
@@ -58,15 +64,14 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     }
 
     public interface OnItemClickListener {
-        void onItemClick(Venue poi);
+        void onItemClick(Venue venue);
     }
 
-    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 
-    public ItemsRecyclerAdapter(List<Venue> myDataset, Picasso picasso) {
-        mDataset = myDataset;
+    public ItemsRecyclerAdapter(Picasso picasso) {
         mPicasso = picasso;
     }
 
@@ -104,10 +109,10 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
      */
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > mLastPosition) {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), R.anim.slide_in_from_bottom);
             viewToAnimate.startAnimation(animation);
-            mLastPosition = position;
+            lastPosition = position;
         }
     }
 }

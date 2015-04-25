@@ -1,17 +1,19 @@
 package com.nabilhachicha.kc.items.itemlist;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
-import com.nabilhachicha.kc.items.ItemDetailActivity;
+import com.nabilhachicha.kc.home.DataLoaderHelper;
+import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.Venue;
+import com.nabilhachicha.kc.service.BackendOperations;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
 
@@ -19,10 +21,20 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit.RestAdapter;
+import rx.Observable;
+import rx.schedulers.Schedulers;
 
-public class ItemsFragment extends BaseFragment {
+
+public class ItemsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<Venue>> {
 
     private static final String CATEGORY_KEY = "category";
+
+    @Inject
+    BackendOperations mBackendOperations;
+
+    @Inject
+    RestAdapter mRestAdapter;
 
     @Inject
     Database mDatabase;
@@ -36,6 +48,8 @@ public class ItemsFragment extends BaseFragment {
      * The recycle view
      */
     private RecyclerView mRecyclerView;
+    private DataLoaderHelper mRxFlowHelper;
+    private String mCategory;
 
 
     public ItemsFragment() {
@@ -53,25 +67,35 @@ public class ItemsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mCategory = getArguments().getString(CATEGORY_KEY);
+        mAdapter = new ItemsRecyclerAdapter(mPicasso);
+        // Fetch remote data
+        mRxFlowHelper = new DataLoaderHelper(this);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Init the adapter
-        initAdapter();
-
-        // Set the adapter
-        mRecyclerView.setAdapter(mAdapter);
-
-        mAdapter.setOnItemClickListener(onItemClickListener);
+        mAdapter.SetOnItemClickListener(onItemClickListener);
     }
 
-    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = venue -> {
-        Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
-        intent.putExtra("item", venue);
-        getActivity().startActivity(intent);
+    @Override
+    public void onStart() {
+        super.onStart();
+        mRxFlowHelper.onStart();
+    }
+
+    @Override
+    public void onStop() {
+        mRxFlowHelper.onStop();
+        super.onStop();
+    }
+
+    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = new ItemsRecyclerAdapter.OnItemClickListener() {
+        @Override
+        public void onItemClick(Venue venue) {
+            Toast.makeText(getActivity(), "Item selected: " + venue.getName(), Toast.LENGTH_SHORT).show();
+        }
     };
 
     @Override
@@ -81,6 +105,7 @@ public class ItemsFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.item_list);
+        mRecyclerView.setAdapter(mAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
@@ -88,38 +113,34 @@ public class ItemsFragment extends BaseFragment {
         return view;
     }
 
-    private void initAdapter() {
-        List<Venue> pois = mDatabase.getVenues(getArguments().getString(CATEGORY_KEY));
-        Venue poi = new Venue();
-        poi.setName("test1");
-        poi.setDescription("test1");
-        poi.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+    @Override
+    public void showError() {
 
-        Venue poi2 = new Venue();
-        poi2.setName("test2");
-        poi2.setDescription("test2");
-        poi2.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
-
-        Venue poi3 = new Venue();
-        poi3.setName("test3");
-        poi3.setDescription("test3");
-        poi3.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
-
-        Venue poi4 = new Venue();
-        poi4.setName("test4");
-        poi4.setDescription("test4");
-        poi4.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
-
-        pois.add(poi);
-        pois.add(poi2);
-        pois.add(poi3);
-        pois.add(poi4);
-        pois.add(poi);
-        pois.add(poi2);
-        pois.add(poi3);
-        pois.add(poi4);
-
-        mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 
+    @Override
+    public void showContent(List<Venue> data) {
+        mAdapter.replace(data);
+    }
+
+    @Override
+    public void updateContent(List<Venue> data) {
+        showContent(data);
+    }
+
+    @Override
+    public boolean isCacheAvailable() {
+        //return mDatabase.isEmpty();
+        return false;
+    }
+
+    @Override
+    public List<Venue> queryCache() {
+        return mDatabase.getVenues(mCategory);
+    }
+
+    @Override
+    public Observable<List<Venue>> queryBackend() {
+        return KcObservables.getItemsByCategory(mBackendOperations, mDatabase, mCategory).subscribeOn(Schedulers.io());
+    }
 }
