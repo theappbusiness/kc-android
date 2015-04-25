@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -92,6 +93,25 @@ public class SlidingTabsFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             RecyclerAdapter recyclerAdapter = new RecyclerAdapter(data);
             recyclerView.setAdapter(recyclerAdapter);
+            recyclerView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+
+                @Override
+                public void onScrollChanged() {
+
+                    int scrollY = recyclerView.getScrollY(); //for verticalScrollView
+
+                    int baseColor = getResources().getColor(R.color.primary);
+//                    float alpha = 1 - (float) Math.max(0, header.getMeasuredHeight() - scrollY) / header.getMeasuredHeight();
+//                    header.setBackgroundColor(getColorWithAlpha(alpha, baseColor));
+
+                    header.setBackgroundColor(baseColor);
+
+//                    mImage.setTranslationY(scrollY / 2);
+
+                }
+            });
+
+
 //            recyclerView.addOnScrollListener(new HidingScrollListener() {
 //                @Override
 //                public void onHide() {
@@ -108,9 +128,24 @@ public class SlidingTabsFragment extends Fragment {
             return view;
         }
 
+
+        public int getColorWithAlpha(float alpha, int baseColor) {
+            int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
+            int rgb = 0x00ffffff & baseColor;
+            return a + rgb;
+        }
+
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
+        }
+
+        private void hideViews() {
+            header.setVisibility(View.GONE);
+        }
+
+        private void showViews() {
+            header.setVisibility(View.VISIBLE);
         }
     }
 

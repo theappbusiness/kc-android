@@ -19,8 +19,8 @@
     </style>
 
     <style name="AppTheme2" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">#FF3388</item>
-        <item name="colorPrimaryDark">#FF8833</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/secondary</item>
     </style>
 
 
