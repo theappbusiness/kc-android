@@ -4,11 +4,10 @@ jdk:
  - oraclejdk8
 
 android:
-  components:
-    components:
-        - build-tools-22.0.1
-        - android-22
-        - extra-android-m2repository
+   components:
+       - build-tools-22.0.1
+       - android-22
+       - extra-android-m2repository
 
 script:
   - ./gradlew clean check
