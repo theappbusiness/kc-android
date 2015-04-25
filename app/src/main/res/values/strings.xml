@@ -2,4 +2,8 @@
 <resources>
 
     <string name="app_name">KC</string>
+    <string name="title_activity_main_test">MainTestActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
