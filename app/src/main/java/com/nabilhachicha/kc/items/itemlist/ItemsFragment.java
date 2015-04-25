@@ -58,23 +58,24 @@ public class ItemsFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_item, container, false);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.item_list);
-        mRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         // Init the adapter
         initAdapter();
 
         // Set the adapter
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_item, container, false);
+
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.item_list);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
         return view;
     }
@@ -82,10 +83,29 @@ public class ItemsFragment extends BaseFragment {
     private void initAdapter() {
         List<POI> pois = mDatabase.getPois(getArguments().getString(CATEGORY_KEY), POI.Sort.BY_NAME);
         POI poi = new POI();
-        poi.setName("test");
-        poi.setDescription("test2");
+        poi.setName("test1");
+        poi.setDescription("test1");
         poi.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+
+        POI poi2 = new POI();
+        poi2.setName("test2");
+        poi2.setDescription("test2");
+        poi2.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+
+        POI poi3 = new POI();
+        poi3.setName("test3");
+        poi3.setDescription("test3");
+        poi3.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+
+        POI poi4 = new POI();
+        poi4.setName("test4");
+        poi4.setDescription("test4");
+        poi4.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+
         pois.add(poi);
+        pois.add(poi2);
+        pois.add(poi3);
+        pois.add(poi4);
         mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 

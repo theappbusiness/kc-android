@@ -17,8 +17,8 @@ import java.util.List;
  * Created by stephencolias on 25/04/15.
  */
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
-    private List<POI> mDataset;
 
+    private List<POI> mDataset;
     private Picasso mPicasso;
 
     // Provide a reference to the views for each data item
