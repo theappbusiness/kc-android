@@ -17,7 +17,8 @@
 package com.nabilhachicha.kc.data;
 
 import com.nabilhachicha.kc.model.Category;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.model.Venue;
+
 import java.util.List;
 
 /**
@@ -25,20 +26,19 @@ import java.util.List;
  */
 public interface Database {
 
-    public POI savePoi(final POI poi);
+    public Venue saveVenue(final Venue venue);
 
     /**
      * Return all Point Of Interests for the given {@code category}
      *
      * @param category POI's category
-     * @param sort     optional sort method (default is  {@code POI.Sort.BY_NAME})
      * @return List of POIs belonging to the  {@code category}
      */
-    public List<POI> getPois(final String category, POI.Sort... sort);
+    public List<Venue> getVenues(final String category);
 
-    public void deletePois();
+    public void deleteVenues();
 
-    public List<Category> getCategories(Category.Sort... sort);
+    public List<Category> getCategories();
 
     public Category saveCategory(final Category category);
 

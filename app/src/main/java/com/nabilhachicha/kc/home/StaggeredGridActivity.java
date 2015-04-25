@@ -17,28 +17,22 @@
 package com.nabilhachicha.kc.home;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 
 import com.etsy.android.grid.StaggeredGridView;
 import com.nabilhachicha.kc.BaseActivity;
-import com.nabilhachicha.kc.ui.CategoryAdapter;
-import com.nabilhachicha.kc.io.KcObservables;
-import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
-import com.nabilhachicha.kc.items.ItemsActivity;
+import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.Category;
+import com.nabilhachicha.kc.service.BackendOperations;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
-import retrofit.RestAdapter;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
@@ -47,7 +41,7 @@ import rx.schedulers.Schedulers;
  */
 public class StaggeredGridActivity extends BaseActivity implements StaggeredGridView.OnItemClickListener, DataLoaderHelper.ContentFlow<List<Category>> {
     @Inject
-    RestAdapter mRestAdapter;
+    BackendOperations mBackendOperations;
 
     @Inject
     Database mDatabase;
@@ -55,26 +49,12 @@ public class StaggeredGridActivity extends BaseActivity implements StaggeredGrid
     @Inject
     Picasso mPicasso;
 
-    private CategoryAdapter mAdapter;
-
     private DataLoaderHelper mRxFlowHelper;
 
     @SuppressWarnings("unchecked")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
-        setContentView(R.layout.activity_grid);
-
-        StaggeredGridView gridView = (StaggeredGridView) findViewById(R.id.grid_view);
-
-        mAdapter = new CategoryAdapter(this, mPicasso);
-        gridView.setAdapter(mAdapter);
-        gridView.setOnItemClickListener(this);
 
         mRxFlowHelper = new DataLoaderHelper(this);
     }
@@ -93,10 +73,10 @@ public class StaggeredGridActivity extends BaseActivity implements StaggeredGrid
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        Category category = mAdapter.getItem(position);
-        Intent intent = new Intent(this, ItemsActivity.class);
-        intent.putExtra("category", category);
-        startActivity(intent);
+//        Category category = mAdapter.getItem(position);
+//        Intent intent = new Intent(this, ItemsActivity.class);
+//        intent.putExtra("category", category);
+//        startActivity(intent);
     }
 
     // Rx Flow Helper
@@ -107,7 +87,7 @@ public class StaggeredGridActivity extends BaseActivity implements StaggeredGrid
 
     @Override
     public void showContent(List<Category> data) {
-        mAdapter.replace(mDatabase.getCategories());
+//        mAdapter.replace(mDatabase.getCategories());
     }
 
     @Override
@@ -127,7 +107,8 @@ public class StaggeredGridActivity extends BaseActivity implements StaggeredGrid
 
     @Override
     public Observable<List<Category>> queryBackend() {
-        return KcObservables.getPoisAndCategories(mRestAdapter, mDatabase).subscribeOn(Schedulers.io());
+        return KcObservables.getCategories(mBackendOperations, mDatabase).subscribeOn(Schedulers.io());
     }
+
 
 }

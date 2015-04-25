@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nabilhachicha.kc.R;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.model.Venue;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,7 +21,7 @@ import java.util.List;
  */
 public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdapter.ViewHolder> {
 
-    private static List<POI> mDataset;
+    private static List<Venue> mDataset;
     private Picasso mPicasso;
 
     private OnItemClickListener mItemClickListener;
@@ -58,14 +58,14 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     }
 
     public interface OnItemClickListener {
-        void onItemClick(POI poi);
+        void onItemClick(Venue poi);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 
-    public ItemsRecyclerAdapter(List<POI> myDataset, Picasso picasso) {
+    public ItemsRecyclerAdapter(List<Venue> myDataset, Picasso picasso) {
         mDataset = myDataset;
         mPicasso = picasso;
     }
@@ -86,10 +86,10 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from the dataset at this position
         // - replace the contents of the view with this element
-        POI poi = mDataset.get(position);
-        holder.mTitleTextView.setText(poi.getName());
-        holder.mDescriptionTextView.setText(poi.getDescription());
-        mPicasso.with(holder.mImageView.getContext()).load(poi.getImgUrl()).into(holder.mImageView);
+        Venue venue = mDataset.get(position);
+        holder.mTitleTextView.setText(venue.getName());
+        holder.mDescriptionTextView.setText(venue.getDescription());
+        mPicasso.with(holder.mImageView.getContext()).load(venue.getImageUrl()).into(holder.mImageView);
         setAnimation(holder.mContainer, position);
     }
 

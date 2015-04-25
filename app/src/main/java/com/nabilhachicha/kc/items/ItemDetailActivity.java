@@ -33,7 +33,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nabilhachicha.kc.BaseActivity;
 import com.nabilhachicha.kc.R;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.utils.MapUtils;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +50,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     ImageView mItemImg;
     TextView mTextName, mTextDescription, mTextCommentary;
-    POI mPOI;
+    Venue mVenue;
 
     private Toolbar mToolbar;
 
@@ -62,7 +62,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        mPOI = (POI) getIntent().getSerializableExtra("item");
+        mVenue = (Venue) getIntent().getSerializableExtra("item");
 
         setContentView(R.layout.item_details);
 
@@ -79,10 +79,10 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         mTextCommentary = (TextView) findViewById(R.id.textCommentary);
 
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        mPicasso.load(mPOI.getImgUrl()).resize(screenWidth, screenWidth).centerInside().into(mItemImg);
-        mTextName.setText(mPOI.getName());
-        mTextDescription.setText(mPOI.getDescription());
-        mTextCommentary.setText(mPOI.getCommentary().trim());
+        mPicasso.load(mVenue.getImageUrl()).resize(screenWidth, screenWidth).centerInside().into(mItemImg);
+        mTextName.setText(mVenue.getName());
+        mTextDescription.setText(mVenue.getDescription());
+        mTextCommentary.setText(mVenue.getCommentary().trim());
 
         findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / ASPECT_RATIO);
 
@@ -107,17 +107,17 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         UiSettings uiSettings = googleMap.getUiSettings();
         uiSettings.setMapToolbarEnabled(false);
 
-        LatLng location = mPOI.getLocation();
+        LatLng location = new LatLng(mVenue.getLattitude(), mVenue.getLongitude());
         googleMap.addMarker(new MarkerOptions()
                 .position(location)
-                .title(mPOI.getName()));
+                .title(mVenue.getName()));
 
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
     }
 
     public void openDirections(View view) {
-        MapUtils.startMapIntent(mPOI, this);
+        MapUtils.startMapIntent(mVenue, this);
     }
 
 }

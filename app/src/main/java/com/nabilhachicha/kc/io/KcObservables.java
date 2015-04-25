@@ -17,60 +17,38 @@
 package com.nabilhachicha.kc.io;
 
 import com.nabilhachicha.kc.data.Database;
-import com.nabilhachicha.kc.model.BackendResponse;
+import com.nabilhachicha.kc.model.CategoriesResponse;
 import com.nabilhachicha.kc.model.Category;
-import com.nabilhachicha.kc.model.POI;
-import com.nabilhachicha.kc.service.BackendService;
+import com.nabilhachicha.kc.model.Venue;
+import com.nabilhachicha.kc.model.VenuesResponse;
+import com.nabilhachicha.kc.service.BackendOperations;
 
-import java.util.Collections;
 import java.util.List;
 
-import retrofit.RestAdapter;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.functions.Func1;
 
 /**
  * Created by Nabil Hachicha on 10/12/14.
  */
 public class KcObservables {
 
-    public static Observable<List<Category>> getPoisAndCategories(final RestAdapter restAdapter, final Database database) {
-        BackendService backendService = restAdapter.create(BackendService.class);
-        final Observable<BackendResponse> pois = backendService.getPois();
-
-        Observable<List<Category>> obsCategories = pois
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnNext(backendResponse -> database.deleteCategories())
-                .flatMap(backendResponse -> Observable.from(backendResponse.getCategories()))
-                .map(database::saveCategory)
-                .toList();
-
-        Observable<Integer> obsPois = pois
-                .doOnNext(backendResponse -> database.deletePois())
-                .flatMap(backendResponse -> Observable.from(backendResponse.getItems()))
-                .map(database::savePoi)
-                .count();
-
-        return Observable.zip(obsCategories, obsPois, (categories, nbPois) -> {// Categories & POIs runs in parallel
-            if (null != categories
-                    && !categories.isEmpty()
-                    && nbPois > 0) {
-                Collections.sort(categories, Category.Sort.BY_POSITION.getComparator());
-
-                return categories;
-
-            } else {
-                throw new IllegalStateException("Empty categories or POIs");//TODO use this to ignore updating UI if we get a cached response
+    public static Observable<List<Category>> getCategories(final BackendOperations operations, final Database database) {
+        return operations.getCategories().flatMap(new Func1<CategoriesResponse, Observable<? extends List<Category>>>() {
+            @Override
+            public Observable<? extends List<Category>> call(CategoriesResponse categoriesResponse) {
+                return Observable.just(categoriesResponse.get());
             }
         });
     }
 
-    public static Observable<List<List<POI>>> getItemsByCategory(final Database database, final String category) {
-        return Observable
-                .from(database.getPois(category, POI.Sort.BY_RATING))
-                .subscribeOn(Schedulers.io())
-                .buffer(2)
-                .toList();
+
+    public static Observable<List<Venue>> getItemsByCategory(final BackendOperations operations, final Database database, String category) {
+        return operations.getVenuesByCategory(category).flatMap(new Func1<VenuesResponse, Observable<List<Venue>>>() {
+            @Override
+            public Observable<List<Venue>> call(VenuesResponse venuesResponse) {
+                return Observable.just(venuesResponse.getVenues());
+            }
+        });
     }
 }

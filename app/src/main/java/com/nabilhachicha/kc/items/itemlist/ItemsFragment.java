@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
 import com.nabilhachicha.kc.items.ItemDetailActivity;
-import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
 
@@ -68,9 +68,9 @@ public class ItemsFragment extends BaseFragment {
         mAdapter.setOnItemClickListener(onItemClickListener);
     }
 
-    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = poi -> {
+    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = venue -> {
         Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
-        intent.putExtra("item", poi);
+        intent.putExtra("item", venue);
         getActivity().startActivity(intent);
     };
 
@@ -89,26 +89,26 @@ public class ItemsFragment extends BaseFragment {
     }
 
     private void initAdapter() {
-        List<POI> pois = mDatabase.getPois(getArguments().getString(CATEGORY_KEY), POI.Sort.BY_NAME);
-        POI poi = new POI();
+        List<Venue> pois = mDatabase.getVenues(getArguments().getString(CATEGORY_KEY));
+        Venue poi = new Venue();
         poi.setName("test1");
         poi.setDescription("test1");
-        poi.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+        poi.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
 
-        POI poi2 = new POI();
+        Venue poi2 = new Venue();
         poi2.setName("test2");
         poi2.setDescription("test2");
-        poi2.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+        poi2.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
 
-        POI poi3 = new POI();
+        Venue poi3 = new Venue();
         poi3.setName("test3");
         poi3.setDescription("test3");
-        poi3.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+        poi3.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
 
-        POI poi4 = new POI();
+        Venue poi4 = new Venue();
         poi4.setName("test4");
         poi4.setDescription("test4");
-        poi4.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+        poi4.setImageUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
 
         pois.add(poi);
         pois.add(poi2);
