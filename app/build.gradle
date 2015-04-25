@@ -21,12 +21,12 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 21
-    buildToolsVersion "21.1.2"
+    buildToolsVersion "22.0.1"
 
     defaultConfig {
         applicationId "com.nabilhachicha.kc"
         minSdkVersion 14
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "BACKEND_ENDPOINT", "\"${kc_backend_endpoint}\""
@@ -71,7 +71,7 @@ dependencies {
     compile 'com.esotericsoftware.kryo:kryo:2.24.0'
     compile 'com.squareup.dagger:dagger:1.2.2'
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'
-    compile 'com.google.android.gms:play-services-maps:6.5.87'
+    compile 'com.google.android.gms:play-services-maps:7.0.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
         transitive = true;
     }
