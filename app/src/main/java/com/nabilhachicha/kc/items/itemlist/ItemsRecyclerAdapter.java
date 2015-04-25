@@ -29,6 +29,11 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     // Allows to remember the last item shown on screen
     private int lastPosition = -1;
 
+    public void replace(List<POI> pois) {
+        mDataset = pois;
+        notifyDataSetChanged();
+    }
+
 
     // Provide a reference to the views for each data item
     public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
@@ -65,8 +70,7 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
         this.mItemClickListener = mItemClickListener;
     }
 
-    public ItemsRecyclerAdapter(List<POI> myDataset, Picasso picasso) {
-        mDataset = myDataset;
+    public ItemsRecyclerAdapter(Picasso picasso) {
         mPicasso = picasso;
     }
 

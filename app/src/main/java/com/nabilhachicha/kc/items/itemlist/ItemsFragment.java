@@ -1,16 +1,17 @@
 package com.nabilhachicha.kc.items.itemlist;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
-import com.nabilhachicha.kc.KcApp;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
+import com.nabilhachicha.kc.home.DataLoaderHelper;
+import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.POI;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
@@ -19,10 +20,16 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import retrofit.RestAdapter;
+import rx.Observable;
 
-public class ItemsFragment extends BaseFragment {
+
+public class ItemsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<POI>> {
 
     private static final String CATEGORY_KEY = "category";
+
+    @Inject
+    RestAdapter mRestAdapter;
 
     @Inject
     Database mDatabase;
@@ -36,6 +43,8 @@ public class ItemsFragment extends BaseFragment {
      * The recycle view
      */
     private RecyclerView mRecyclerView;
+    private DataLoaderHelper mRxFlowHelper;
+    private String mCategory;
 
 
     public ItemsFragment() {
@@ -53,25 +62,22 @@ public class ItemsFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Fetch remote data
+        mRxFlowHelper = new DataLoaderHelper(this);
+        mCategory = getArguments().getString(CATEGORY_KEY);
+        mAdapter = new ItemsRecyclerAdapter(mPicasso);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        // Init the adapter
-        initAdapter();
-
-        // Set the adapter
-        mRecyclerView.setAdapter(mAdapter);
-
         mAdapter.SetOnItemClickListener(onItemClickListener);
     }
 
     ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = new ItemsRecyclerAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(POI poi) {
-
+            Toast.makeText(getActivity(), "Item selected: " + poi.getName(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -89,37 +95,33 @@ public class ItemsFragment extends BaseFragment {
         return view;
     }
 
-    private void initAdapter() {
-        List<POI> pois = mDatabase.getPois(getArguments().getString(CATEGORY_KEY), POI.Sort.BY_NAME);
-        POI poi = new POI();
-        poi.setName("test1");
-        poi.setDescription("test1");
-        poi.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
+    @Override
+    public void showError() {
 
-        POI poi2 = new POI();
-        poi2.setName("test2");
-        poi2.setDescription("test2");
-        poi2.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
-
-        POI poi3 = new POI();
-        poi3.setName("test3");
-        poi3.setDescription("test3");
-        poi3.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
-
-        POI poi4 = new POI();
-        poi4.setName("test4");
-        poi4.setDescription("test4");
-        poi4.setImgUrl("https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcSS6zCdbKLAl2cjUxMTGFnDPFSZKT6K0xAiudBLKTyyzdCOnXHSc_pHicFJIA");
-
-        pois.add(poi);
-        pois.add(poi2);
-        pois.add(poi3);
-        pois.add(poi4);
-        pois.add(poi);
-        pois.add(poi2);
-        pois.add(poi3);
-        pois.add(poi4);
-        mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 
+    @Override
+    public void showContent(List<POI> data) {
+        mAdapter.replace(mDatabase.getPois(mCategory, POI.Sort.BY_NAME));
+    }
+
+    @Override
+    public void updateContent(List<POI> data) {
+        showContent(data);
+    }
+
+    @Override
+    public boolean isCacheAvailable() {
+        return mDatabase.isEmpty();
+    }
+
+    @Override
+    public List<POI> queryCache() {
+        return mDatabase.getPois(mCategory);
+    }
+
+    @Override
+    public Observable<List<POI>> queryBackend() {
+        return KcObservables.getItemsByCategory(mDatabase, mCategory);
+    }
 }
