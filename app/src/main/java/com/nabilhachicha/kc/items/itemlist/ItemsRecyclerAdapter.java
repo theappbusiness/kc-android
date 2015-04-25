@@ -4,6 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +23,12 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
 
     private static List<POI> mDataset;
     private Picasso mPicasso;
+
     static OnItemClickListener mItemClickListener;
+
+    // Allows to remember the last item shown on screen
+    private int lastPosition = -1;
+
 
     // Provide a reference to the views for each data item
     public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
@@ -28,9 +36,11 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
         public ImageView mImageView;
         public TextView mTitleTextView;
         public TextView mDescriptionTextView;
+        public FrameLayout mContainer;
 
         public ViewHolder(View itemLayoutView) {
             super(itemLayoutView);
+            mContainer = (FrameLayout) itemLayoutView.findViewById(R.id.card_view);
             mImageView = (ImageView) itemLayoutView.findViewById(R.id.item_image);
             mTitleTextView = (TextView) itemLayoutView.findViewById(R.id.item_name);
             mDescriptionTextView = (TextView) itemLayoutView.findViewById(R.id.item_description);
@@ -80,11 +90,26 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
         holder.mTitleTextView.setText(poi.getName());
         holder.mDescriptionTextView.setText(poi.getDescription());
         mPicasso.with(holder.mImageView.getContext()).load(poi.getImgUrl()).into(holder.mImageView);
+        setAnimation(holder.mContainer, position);
     }
 
     // Return the size of the dataset
     @Override
     public int getItemCount() {
         return mDataset.size();
+    }
+
+    /**
+     * Here is the key method to apply the animation
+     */
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 }

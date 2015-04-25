@@ -115,6 +115,10 @@ public class ItemsFragment extends BaseFragment {
         pois.add(poi2);
         pois.add(poi3);
         pois.add(poi4);
+        pois.add(poi);
+        pois.add(poi2);
+        pois.add(poi3);
+        pois.add(poi4);
         mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 
