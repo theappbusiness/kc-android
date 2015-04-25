@@ -24,14 +24,14 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     private static List<POI> mDataset;
     private Picasso mPicasso;
 
-    static OnItemClickListener mItemClickListener;
+    private OnItemClickListener mItemClickListener;
 
     // Allows to remember the last item shown on screen
-    private int lastPosition = -1;
+    private int mLastPosition = -1;
 
 
     // Provide a reference to the views for each data item
-    public static class ViewHolder extends RecyclerView.ViewHolder  implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public ImageView mImageView;
         public TextView mTitleTextView;
@@ -61,7 +61,7 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
         void onItemClick(POI poi);
     }
 
-    public void SetOnItemClickListener(final OnItemClickListener mItemClickListener) {
+    public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
         this.mItemClickListener = mItemClickListener;
     }
 
@@ -102,14 +102,12 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
     /**
      * Here is the key method to apply the animation
      */
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > mLastPosition) {
             Animation animation = AnimationUtils.loadAnimation(viewToAnimate.getContext(), R.anim.slide_in_from_bottom);
             viewToAnimate.startAnimation(animation);
-            lastPosition = position;
+            mLastPosition = position;
         }
     }
 }

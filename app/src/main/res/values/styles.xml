@@ -1,6 +1,6 @@
 <resources>
-    <style name="None">
-    </style>
+
+    <style name="None"></style>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.NoActionBar">

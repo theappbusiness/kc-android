@@ -1,5 +1,6 @@
 package com.nabilhachicha.kc.items.itemlist;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
+import com.nabilhachicha.kc.items.ItemDetailActivity;
 import com.nabilhachicha.kc.model.POI;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
@@ -63,14 +65,13 @@ public class ItemsFragment extends BaseFragment {
         // Set the adapter
         mRecyclerView.setAdapter(mAdapter);
 
-        mAdapter.SetOnItemClickListener(onItemClickListener);
+        mAdapter.setOnItemClickListener(onItemClickListener);
     }
 
-    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = new ItemsRecyclerAdapter.OnItemClickListener() {
-        @Override
-        public void onItemClick(POI poi) {
-
-        }
+    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = poi -> {
+        Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
+        intent.putExtra("item", poi);
+        getActivity().startActivity(intent);
     };
 
     @Override
@@ -117,6 +118,7 @@ public class ItemsFragment extends BaseFragment {
         pois.add(poi2);
         pois.add(poi3);
         pois.add(poi4);
+
         mAdapter = new ItemsRecyclerAdapter(pois, mPicasso);
     }
 

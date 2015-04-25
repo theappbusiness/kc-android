@@ -5,4 +5,5 @@
 
     <color name="primary">#FF3388</color>
     <color name="secondary">#FF8833</color>
+    <color name="details_floating_button">#ff4200</color>
 </resources>
