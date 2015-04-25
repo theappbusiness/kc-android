@@ -26,11 +26,13 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.nabilhachicha.kc.BaseActivity;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.model.POI;
+import com.nabilhachicha.kc.utils.MapUtils;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -39,6 +41,8 @@ import javax.inject.Inject;
  * Created by Nabil on 11/12/14.
  */
 public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallback {
+    private static final float ASPECT_RATIO = 16f / 9f;
+
     @Inject
     Picasso mPicasso;
 
@@ -69,7 +73,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         mTextDescription.setText(mPOI.getDescription());
         mTextCommentary.setText(mPOI.getCommentary());
 
-        findViewById(R.id.map).getLayoutParams().height = screenWidth;
+        findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / ASPECT_RATIO);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -82,11 +86,24 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+
+        // disable map click
+        googleMap.setOnMapClickListener(latLng -> {
+            // ignore
+            MapUtils.startMapIntent(mPOI, this);
+        });
+
+        // remove map buttons
+        UiSettings uiSettings = googleMap.getUiSettings();
+        uiSettings.setMapToolbarEnabled(false);
+
         LatLng location = mPOI.getLocation();
         googleMap.addMarker(new MarkerOptions()
                 .position(location)
                 .title(mPOI.getName()));
 
+
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
     }
+
 }
