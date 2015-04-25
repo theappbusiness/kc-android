@@ -70,14 +70,14 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         super.onCreate(savedInstanceState);
         mCategory = getArguments().getString(CATEGORY_KEY);
         mAdapter = new ItemsRecyclerAdapter(mPicasso);
-        // Fetch remote data
-        mRxFlowHelper = new DataLoaderHelper(this);
+        mAdapter.SetOnItemClickListener(onItemClickListener);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mAdapter.SetOnItemClickListener(onItemClickListener);
+        // Fetch remote data
+        mRxFlowHelper = new DataLoaderHelper(this);
     }
 
     @Override
@@ -96,7 +96,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
         intent.putExtra("item", venue);
         startActivity(intent);
-        ;
     };
 
     @Override
