@@ -17,6 +17,7 @@
 package com.nabilhachicha.kc.items;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -90,7 +91,6 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         // disable map click
         googleMap.setOnMapClickListener(latLng -> {
             // ignore
-            MapUtils.startMapIntent(mPOI, this);
         });
 
         // remove map buttons
@@ -104,6 +104,10 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
 
 
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+    }
+
+    public void openDirections(View view){
+        MapUtils.startMapIntent(mPOI, this);
     }
 
 }

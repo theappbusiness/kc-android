@@ -1,94 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <ImageView
-                android:id="@+id/itemImg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="200dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="#e6302f2d"
-                android:minHeight="100dp"
-                android:orientation="vertical"
-                android:padding="16dp"
-                tools:layout_height="100dp">
-
-                <TextView
-                    android:id="@+id/textName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textAppearance="?android:textAppearanceLarge"
-                    android:textColor="#fff"
-                    tools:text="Place Name" />
-
-                <TextView
-                    android:id="@+id/textDescription"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="#fff"
-                    tools:text="Place description based on our findings" />
-
-
-            </LinearLayout>
-        </FrameLayout>
-
-        <TextView
-            android:id="@+id/textCommentary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:padding="16dp"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="#888"
-            tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
-
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp">
+            android:orientation="vertical">
 
-            <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.MapFragment"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                map:cameraZoom="13"
-                map:liteMode="true"
-                map:mapType="normal"
-                tools:ignore="MissingPrefix" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/itemImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="200dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="#e6302f2d"
+                    android:minHeight="100dp"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    tools:layout_height="100dp">
+
+                    <TextView
+                        android:id="@+id/textName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:textAppearance="?android:textAppearanceLarge"
+                        android:textColor="#fff"
+                        tools:text="Place Name" />
+
+                    <TextView
+                        android:id="@+id/textDescription"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#fff"
+                        tools:text="Place description based on our findings" />
+
+
+                </LinearLayout>
+            </FrameLayout>
 
             <TextView
-                android:id="@+id/address"
-                android:background="#ccffffff"
+                android:id="@+id/textCommentary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:padding="16dp"
+                android:textAppearance="?android:textAppearanceMedium"
+                android:textColor="#888"
+                tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:gravity="center_horizontal"
-                android:padding="5dp"
-                android:text="71-73 Collier Street, London"
-                />
-        </FrameLayout>
+                android:layout_marginBottom="20dp">
 
-    </LinearLayout>
+                <fragment xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.MapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    map:cameraZoom="13"
+                    map:liteMode="true"
+                    map:mapType="normal"
+                    tools:ignore="MissingPrefix" />
 
+                <TextView
+                    android:id="@+id/address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="#ccffffff"
+                    android:gravity="center_horizontal"
+                    android:padding="5dp"
+                    android:text="71-73 Collier Street, London" />
+            </FrameLayout>
 
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+    <com.software.shell.fab.ActionButton
+        android:id="@+id/fab_activity_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
+        android:onClick="openDirections"
+        fab:button_color="@color/details_floating_button"
+        fab:image="@android:drawable/ic_menu_directions"
+        fab:shadow_yOffset="3dp" />
+</FrameLayout>
