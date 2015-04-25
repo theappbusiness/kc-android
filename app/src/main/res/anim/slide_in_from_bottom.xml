@@ -3,7 +3,7 @@
     android:duration="200"
     android:interpolator="@android:anim/decelerate_interpolator"
     android:shareInterpolator="true"
-    android:startOffset="400">
+    android:startOffset="200">
     <translate
         android:fromXDelta="0%"
         android:fromYDelta="60%"
