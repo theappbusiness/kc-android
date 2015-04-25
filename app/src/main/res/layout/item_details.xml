@@ -107,4 +107,10 @@
         fab:button_color="@color/details_floating_button"
         fab:image="@android:drawable/ic_menu_directions"
         fab:shadow_yOffset="3dp" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"/>
 </FrameLayout>

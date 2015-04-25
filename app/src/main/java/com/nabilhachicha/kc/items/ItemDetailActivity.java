@@ -17,6 +17,7 @@
 package com.nabilhachicha.kc.items;
 
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -51,6 +52,8 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
     TextView mTextName, mTextDescription, mTextCommentary;
     POI mPOI;
 
+    private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +65,13 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         mPOI = (POI) getIntent().getSerializableExtra("item");
 
         setContentView(R.layout.item_details);
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        mToolbar.setNavigationOnClickListener(v -> {
+            //What to do on back clicked
+            finish();
+        });
 
         mItemImg = (ImageView) findViewById(R.id.itemImg);
         mTextName = (TextView) findViewById(R.id.textName);
@@ -106,7 +116,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
     }
 
-    public void openDirections(View view){
+    public void openDirections(View view) {
         MapUtils.startMapIntent(mPOI, this);
     }
 

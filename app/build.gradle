@@ -62,7 +62,7 @@ dependencies {
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.squareup.picasso:picasso:2.3.4'
     compile 'com.github.shell-software:fab:1.0.5'
-    compile 'com.android.support:support-v4:21.0.3'
+    compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.squareup.retrofit:retrofit:1.8.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
