@@ -1,10 +1,10 @@
-package com.nabilhachicha.kc.home.view;
+package com.nabilhachicha.kc.view.header;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.nabilhachicha.kc.items.itemlist.ItemsFragment;
+import com.nabilhachicha.kc.view.itemlist.ItemsFragment;
 import com.nabilhachicha.kc.model.Category;
 
 import java.util.List;

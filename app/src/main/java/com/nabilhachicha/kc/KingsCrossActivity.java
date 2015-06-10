@@ -1,10 +1,9 @@
-package com.nabilhachicha.kc.home;
+package com.nabilhachicha.kc;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.nabilhachicha.kc.R;
-import com.nabilhachicha.kc.home.view.SlidingTabsFragment;
+import com.nabilhachicha.kc.view.header.SlidingTabsFragment;
 
 public class KingsCrossActivity extends AppCompatActivity {
 

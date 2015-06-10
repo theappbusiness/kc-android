@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.home.view;
+package com.nabilhachicha.kc.view.header;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
-import com.nabilhachicha.kc.home.DataLoaderHelper;
+import com.nabilhachicha.kc.io.DataLoaderHelper;
 import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.Category;
 import com.nabilhachicha.kc.service.BackendOperations;

@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.items.itemlist;
+package com.nabilhachicha.kc.view.itemlist;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

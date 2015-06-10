@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nabilhachicha.kc.items;
+package com.nabilhachicha.kc;
 
 import android.content.Intent;
 import android.net.Uri;

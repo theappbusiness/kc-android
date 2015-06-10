@@ -20,9 +20,9 @@ package com.nabilhachicha.kc.di;
 import android.app.Application;
 
 import com.nabilhachicha.kc.KcApp;
-import com.nabilhachicha.kc.home.view.SlidingTabsFragment;
-import com.nabilhachicha.kc.items.ItemDetailActivity;
-import com.nabilhachicha.kc.items.itemlist.ItemsFragment;
+import com.nabilhachicha.kc.view.header.SlidingTabsFragment;
+import com.nabilhachicha.kc.ItemDetailActivity;
+import com.nabilhachicha.kc.view.itemlist.ItemsFragment;
 
 import javax.inject.Singleton;
 
