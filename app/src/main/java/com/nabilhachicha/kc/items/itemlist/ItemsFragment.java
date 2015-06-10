@@ -60,7 +60,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         return fragment;
     }
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

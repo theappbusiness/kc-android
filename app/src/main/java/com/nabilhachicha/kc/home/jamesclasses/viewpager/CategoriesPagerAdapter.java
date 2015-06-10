@@ -38,7 +38,6 @@ public class CategoriesPagerAdapter extends FragmentStatePagerAdapter {
         return ItemsFragment.newInstance(mCategories.get(i).getName());
     }
 
-
     public int getColorWithAlpha(float alpha, int baseColor) {
         int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
         int rgb = 0x00ffffff & baseColor;
