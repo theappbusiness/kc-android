@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.home.jamesclasses.viewpager;
+package com.nabilhachicha.kc.home.view;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.home.jamesclasses.viewpager;
+package com.nabilhachicha.kc.home.view;
 
 /*
  * Copyright (C) 2013 The Android Open Source Project

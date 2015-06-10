@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.home.jamesclasses.viewpager;
+package com.nabilhachicha.kc.home.view;
 
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
