@@ -36,32 +36,25 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.nabilhachicha.kc.BaseActivity;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.model.Venue;
+import com.nabilhachicha.kc.utils.IntentExtras;
 import com.nabilhachicha.kc.utils.MapUtils;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 /**
+ * Details Activity for a {@link Venue}
  * Created by Nabil on 11/12/14.
  */
 public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallback {
-    private static final float ASPECT_RATIO = 16f / 9f;
+    private static final float MAP_ASPECT_RATIO = 16f / 9f;
+    private static final int MAP_ZOOM = 15;
+    private static final String ACTION_DIAL_URI_SCHEME = "tel:";
 
     @Inject
     Picasso mPicasso;
 
     private Venue mVenue;
-
-    private ImageView mImageView;
-    private TextView mTextName;
-    private TextView mTextDescription;
-    private TextView mTextCommentary;
-    private TextView mTextOpeningTimes;
-    private TextView mTextPhone;
-    private TextView mTextWebsite;
-    private TextView mTextAddress;
-
-    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,37 +64,31 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        mVenue = (Venue) getIntent().getSerializableExtra("item");
-
         setContentView(R.layout.item_details);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
-        mToolbar.setNavigationOnClickListener(v -> {
+        mVenue = (Venue) getIntent().getSerializableExtra(IntentExtras.EXTRA_ITEM_KEY);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.abc_ic_ab_back_mtrl_am_alpha));
+        toolbar.setNavigationOnClickListener(v -> {
             //What to do on back clicked
             finish();
         });
 
-        mImageView = (ImageView) findViewById(R.id.itemImg);
-        mTextName = (TextView) findViewById(R.id.textName);
-        mTextDescription = (TextView) findViewById(R.id.textDescription);
-        mTextCommentary = (TextView) findViewById(R.id.textCommentary);
-        mTextOpeningTimes = (TextView) findViewById(R.id.textOpeningTimes);
-        mTextPhone = (TextView) findViewById(R.id.textPhone);
-        mTextWebsite = (TextView) findViewById(R.id.textWebsite);
-        mTextAddress = (TextView) findViewById(R.id.textAddress);
-
         int screenWidth = getResources().getDisplayMetrics().widthPixels;
-        mPicasso.load(mVenue.getImageUrl()).resize(screenWidth, screenWidth).centerInside().into(mImageView);
-        mTextName.setText(mVenue.getName());
-        mTextDescription.setText(mVenue.getDescription());
-        mTextCommentary.setText(mVenue.getCommentary().trim());
-        mTextOpeningTimes.setText(mVenue.getOpeningTimes());
-        mTextPhone.setText(mVenue.getPhoneNumber());
-        mTextWebsite.setText(mVenue.getWebsite());
-        mTextAddress.setText(mVenue.getAddress());
 
-        findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / ASPECT_RATIO);
+        // populate fields
+        ImageView imageView = (ImageView) findViewById(R.id.itemImg);
+        mPicasso.load(mVenue.getImageUrl()).resize(screenWidth, screenWidth).centerInside().into(imageView);
+        ((TextView) findViewById(R.id.textName)).setText(mVenue.getName());
+        ((TextView) findViewById(R.id.textDescription)).setText(mVenue.getDescription());
+        ((TextView) findViewById(R.id.textCommentary)).setText(mVenue.getCommentary().trim());
+        ((TextView) findViewById(R.id.textOpeningTimes)).setText(mVenue.getOpeningTimes());
+        ((TextView) findViewById(R.id.textPhone)).setText(mVenue.getPhoneNumber());
+        ((TextView) findViewById(R.id.textWebsite)).setText(mVenue.getWebsite());
+        ((TextView) findViewById(R.id.textAddress)).setText(mVenue.getAddress());
+
+        findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / MAP_ASPECT_RATIO);
 
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
@@ -111,10 +98,9 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
         // disable map click
         googleMap.setOnMapClickListener(latLng -> {
-            // ignore
+            // ignore map clicks
         });
 
         // remove map buttons
@@ -126,8 +112,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
                 .position(location)
                 .title(mVenue.getName()));
 
-
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, MAP_ZOOM));
     }
 
     public void openDirections(View view) {
@@ -136,7 +121,7 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
 
     public void callIntent(View view) {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:" + mVenue.getPhoneNumber()));
+        intent.setData(Uri.parse(ACTION_DIAL_URI_SCHEME + mVenue.getPhoneNumber()));
         startActivity(intent);
     }
 

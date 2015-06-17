@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -102,9 +102,9 @@
                     android:drawablePadding="15dp"
                     android:drawableStart="@drawable/ic_phone"
                     android:gravity="center_vertical"
+                    android:onClick="callIntent"
                     android:padding="16dp"
-                    tools:text="+44 122 123 4123"
-                    android:onClick="callIntent"/>
+                    tools:text="+44 122 123 4123" />
 
                 <TextView
                     android:id="@+id/textWebsite"
@@ -114,9 +114,9 @@
                     android:drawablePadding="15dp"
                     android:drawableStart="@drawable/ic_website"
                     android:gravity="center_vertical"
+                    android:onClick="browseIntent"
                     android:padding="16dp"
-                    tools:text="www.hungry.com"
-                    android:onClick="browseIntent"/>
+                    tools:text="www.hungry.com" />
 
             </LinearLayout>
 
@@ -149,16 +149,17 @@
         </LinearLayout>
     </ScrollView>
 
-    <com.software.shell.fab.ActionButton
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_activity_action_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_margin="10dp"
         android:onClick="openDirections"
-        fab:button_color="@color/details_floating_button"
-        fab:image="@drawable/ic_action_directions"
-        fab:shadow_yOffset="3dp" />
+        android:src="@drawable/ic_action_directions"
+        app:backgroundTint="@color/details_floating_button"
+        app:borderWidth="0dp"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="#80ffffff" />
 </FrameLayout>
