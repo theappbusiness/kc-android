@@ -1,12 +1,13 @@
 package com.nabilhachicha.kc.home.jamesclasses.viewpager;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
@@ -33,9 +34,8 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
     Database mDatabase;
 
     private Toolbar mToolbar;
-    private LinearLayout header;
 
-    private SlidingTabLayout mSlidingTabLayout;
+    private TabLayout mSlidingTabLayout;
 
     private ViewPager mViewPager;
     private CategoriesPagerAdapter mAdapter;
@@ -60,10 +60,6 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
         mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
         mToolbar.setTitle("App Name");
 
-        header = (LinearLayout) view.findViewById(R.id.header_toolbar);
-
-//        mFabButton = (ImageButton) view.findViewById(R.id.fabButton);
-
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mAdapter = new CategoriesPagerAdapter(getActivity().getSupportFragmentManager());
@@ -71,8 +67,9 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
 
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
-        mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        mSlidingTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        mSlidingTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
@@ -96,7 +93,7 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
     @Override
     public void showContent(List<Category> data) {
         mAdapter.setCategories(data);
-        mSlidingTabLayout.setViewPager(mViewPager);
+        mSlidingTabLayout.setupWithViewPager(mViewPager);
     }
 
     @Override
