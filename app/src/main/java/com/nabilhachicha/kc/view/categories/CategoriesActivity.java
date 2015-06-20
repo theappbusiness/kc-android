@@ -3,6 +3,7 @@ package com.nabilhachicha.kc.view.categories;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
@@ -13,6 +14,7 @@ import com.nabilhachicha.kc.io.DataLoaderHelper;
 import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.Category;
 import com.nabilhachicha.kc.service.BackendOperations;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -73,7 +75,20 @@ public class CategoriesActivity extends BaseActivity implements DataLoaderHelper
 
             @Override
             public void onPageSelected(int position) {
-                mPicasso.with(mCategoryImage.getContext()).load(mData.get(position).getLogoUrl()).into(mCategoryImage);
+
+                mPicasso.with(mCategoryImage.getContext()).load(mData.get(position).getLogoUrl()).into(mCategoryImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        mCategoryImage.startAnimation(AnimationUtils.loadAnimation(CategoriesActivity.this, R.anim.abc_fade_in));
+                    }
+
+                    @Override
+                    public void onError() {
+                        mCategoryImage.setImageDrawable(getResources().getDrawable(R.drawable.image_not_found));
+                        mCategoryImage.startAnimation(AnimationUtils.loadAnimation(CategoriesActivity.this, R.anim.abc_fade_in));
+                    }
+                });
+
             }
 
             @Override
