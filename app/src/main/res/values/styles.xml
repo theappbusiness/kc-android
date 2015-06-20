@@ -27,4 +27,17 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <style name="item_details_collapsed_toolbar" parent="None">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="item_details_expanded_toolbar" parent="None">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:padding">32sp</item>
+    </style>
+
 </resources>
