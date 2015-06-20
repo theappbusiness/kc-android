@@ -19,8 +19,30 @@ repositories {
 
 apply plugin: 'me.tatarka.retrolambda'
 
+
+ext {
+    kcProperties = new Properties()
+    kcProperties.load(new FileInputStream(rootProject.file("keystore/kc-details.properties")));
+}
+
+def getKeyStoreFile = { ->
+    file("../keystore/kc-release.jks")
+}
+
+def getKeyStorePassword = { ->
+    kcProperties.keystorePassword
+}
+
+def getKeyAlias = { ->
+    kcProperties.keyAlias
+}
+
+def getKeyPassword = { ->
+    kcProperties.keyPassword
+}
+
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
 
     defaultConfig {
@@ -30,14 +52,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "BACKEND_ENDPOINT", "\"${kc_backend_endpoint}\""
-        manifestPlaceholders = [ maps_key:"${kc_maps_key}" ]
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+        manifestPlaceholders = [maps_key: "${kc_maps_key}"]
     }
 
     signingConfigs {
@@ -46,6 +61,20 @@ android {
             storePassword "android"
             keyAlias "android"
             keyPassword "android"
+        }
+        release {
+            storeFile getKeyStoreFile()
+            storePassword getKeyStorePassword()
+            keyAlias getKeyAlias()
+            keyPassword getKeyPassword()
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 
@@ -59,13 +88,13 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.1.0'
-    compile "com.android.support:recyclerview-v7:22.1.0"
-    compile 'com.android.support:cardview-v7:22.1.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile "com.android.support:recyclerview-v7:22.2.0"
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
 
     compile 'com.etsy.android.grid:library:1.0.5'
     compile 'com.squareup.picasso:picasso:2.3.4'
-    compile 'com.github.shell-software:fab:1.0.5'
     compile 'com.squareup.retrofit:retrofit:1.8.0'
     compile 'com.squareup.okhttp:okhttp:2.0.0'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
@@ -74,7 +103,7 @@ dependencies {
     compile 'com.esotericsoftware.kryo:kryo:2.24.0'
     compile 'com.squareup.dagger:dagger:1.2.2'
     apt 'com.squareup.dagger:dagger-compiler:1.2.2'
-    compile 'com.google.android.gms:play-services-maps:7.0.0'
+    compile 'com.google.android.gms:play-services-maps:7.5.0'
     compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
         transitive = true;
     }

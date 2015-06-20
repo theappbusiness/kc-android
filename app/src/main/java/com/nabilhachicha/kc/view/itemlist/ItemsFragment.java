@@ -15,6 +15,7 @@ import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.ItemDetailActivity;
 import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.service.BackendOperations;
+import com.nabilhachicha.kc.utils.IntentExtras;
 import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
 
@@ -82,7 +83,7 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
 
     ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = venue -> {
         Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
-        intent.putExtra("item", venue);
+        intent.putExtra(IntentExtras.EXTRA_ITEM_KEY, venue);
         startActivity(intent);
     };
 
