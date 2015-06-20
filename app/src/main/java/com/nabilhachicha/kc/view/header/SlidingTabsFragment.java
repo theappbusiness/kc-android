@@ -3,18 +3,16 @@ package com.nabilhachicha.kc.view.header;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ViewAnimator;
 
+import com.nabilhachicha.kc.BaseActivity;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
 import com.nabilhachicha.kc.io.DataLoaderHelper;
 import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.Category;
 import com.nabilhachicha.kc.service.BackendOperations;
-import com.nabilhachicha.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -26,7 +24,11 @@ import rx.Observable;
 /**
  * Created by jamesscott on 02/03/15.
  */
-public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<Category>> {
+public class SlidingTabsFragment extends BaseActivity implements DataLoaderHelper.ContentFlow<List<Category>> {
+    private static final int CONTENT_VIEW_INDEX = 1;
+
+    private ViewAnimator mViewAnimator;
+
     @Inject
     BackendOperations mBackendOperations;
 
@@ -48,34 +50,25 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        mViewAnimator = (ViewAnimator) findViewById(R.id.main_content_view_animator);
         mRxFlowHelper = new DataLoaderHelper(this);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        return rootView;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
-        mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
-        mAdapter = new CategoriesPagerAdapter(getActivity().getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        mAdapter = new CategoriesPagerAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
-        mCategoryImage = (ImageView) view.findViewById(R.id.backdrop);
+        mCategoryImage = (ImageView) findViewById(R.id.backdrop);
 
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
-        mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabs);
+        mSlidingTabLayout = (TabLayout) findViewById(R.id.tabs);
         mSlidingTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mSlidingTabLayout.setupWithViewPager(mViewPager);
         mPageChangeListener = new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                
+
             }
 
             @Override
@@ -89,6 +82,7 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
             }
         };
         mViewPager.addOnPageChangeListener(mPageChangeListener);
+
     }
 
     @Override
@@ -111,7 +105,11 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
 
     @Override
     public void showContent(List<Category> data) {
-        this.mData = data;
+        mData = data;
+        if (mViewAnimator.getDisplayedChild() != CONTENT_VIEW_INDEX) {
+            mViewAnimator.setDisplayedChild(CONTENT_VIEW_INDEX);
+        }
+
         mAdapter.setCategories(data);
         mSlidingTabLayout.setupWithViewPager(mViewPager);
         mPageChangeListener.onPageSelected(0);

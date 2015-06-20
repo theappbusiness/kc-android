@@ -7,12 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ViewAnimator;
 
+import com.nabilhachicha.kc.ItemDetailActivity;
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
 import com.nabilhachicha.kc.io.DataLoaderHelper;
 import com.nabilhachicha.kc.io.KcObservables;
-import com.nabilhachicha.kc.ItemDetailActivity;
 import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.service.BackendOperations;
 import com.nabilhachicha.kc.utils.IntentExtras;
@@ -29,21 +30,19 @@ import rx.schedulers.Schedulers;
 
 
 public class ItemsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<Venue>> {
-
+    private static final int CONTENT_VIEW_INDEX = 1;
     private static final String CATEGORY_KEY = "category";
 
     @Inject
     BackendOperations mBackendOperations;
-
     @Inject
     RestAdapter mRestAdapter;
-
     @Inject
     Database mDatabase;
-
     @Inject
     Picasso mPicasso;
 
+    private ViewAnimator mViewAnimator;
     private ItemsRecyclerAdapter mAdapter;
 
     /**
@@ -91,14 +90,14 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        mViewAnimator = (ViewAnimator) inflater.inflate(R.layout.fragment_item_list, container, false);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.item_list);
+        mRecyclerView = (RecyclerView) mViewAnimator.findViewById(R.id.item_list);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        return view;
+        return mViewAnimator;
     }
 
     @Override
@@ -116,6 +115,9 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
 
     @Override
     public void showContent(List<Venue> data) {
+        if (mViewAnimator.getDisplayedChild() != CONTENT_VIEW_INDEX) {
+            mViewAnimator.setDisplayedChild(CONTENT_VIEW_INDEX);
+        }
         mAdapter.replace(data);
     }
 
