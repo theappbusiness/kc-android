@@ -22,11 +22,11 @@ apply plugin: 'me.tatarka.retrolambda'
 
 ext {
     kcProperties = new Properties()
-    kcProperties.load(new FileInputStream(rootProject.file("../keystore/kc-details.properties")));
+    kcProperties.load(new FileInputStream(rootProject.file("keystore/kc-details.properties")));
 }
 
 def getKeyStoreFile = { ->
-    file("../../keystore/kc-release.jks")
+    file("../keystore/kc-release.jks")
 }
 
 def getKeyStorePassword = { ->
