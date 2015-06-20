@@ -19,6 +19,7 @@ package com.nabilhachicha.kc;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -31,8 +32,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.nabilhachicha.kc.BaseActivity;
-import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.utils.IntentExtras;
 import com.nabilhachicha.kc.utils.MapUtils;
@@ -74,13 +73,19 @@ public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallba
         // populate fields
         ImageView imageView = (ImageView) findViewById(R.id.itemImg);
         mPicasso.load(mVenue.getImageUrl()).resize(screenWidth, screenWidth).centerInside().into(imageView);
-        ((TextView) findViewById(R.id.textName)).setText(mVenue.getName());
-        ((TextView) findViewById(R.id.textDescription)).setText(mVenue.getDescription());
+//        ((TextView) findViewById(R.id.textName)).setText(mVenue.getName());
+//        ((TextView) findViewById(R.id.textDescription)).setText(mVenue.getDescription());
         ((TextView) findViewById(R.id.textCommentary)).setText(mVenue.getCommentary().trim());
         ((TextView) findViewById(R.id.textOpeningTimes)).setText(mVenue.getOpeningTimes());
         ((TextView) findViewById(R.id.textPhone)).setText(mVenue.getPhoneNumber());
         ((TextView) findViewById(R.id.textWebsite)).setText(mVenue.getWebsite());
         ((TextView) findViewById(R.id.textAddress)).setText(mVenue.getAddress());
+
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(mVenue.getName());
+        collapsingToolbarLayout.setExpandedTitleTextAppearance(R.style.item_details_expanded_toolbar);
+        collapsingToolbarLayout.setCollapsedTitleTextAppearance(R.style.item_details_collapsed_toolbar);
+
 
         findViewById(R.id.map).getLayoutParams().height = (int) (screenWidth / MAP_ASPECT_RATIO);
 
