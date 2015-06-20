@@ -21,7 +21,6 @@
                 android:layout_height="200dp"
                 android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_action_directions"
                 app:layout_collapseMode="parallax"
                 app:layout_scrollFlags="scroll|enterAlways" />
 

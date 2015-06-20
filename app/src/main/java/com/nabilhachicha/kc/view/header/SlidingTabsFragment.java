@@ -3,11 +3,10 @@ package com.nabilhachicha.kc.view.header;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
@@ -16,6 +15,7 @@ import com.nabilhachicha.kc.io.KcObservables;
 import com.nabilhachicha.kc.model.Category;
 import com.nabilhachicha.kc.service.BackendOperations;
 import com.nabilhachicha.kc.view.BaseFragment;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,7 +38,12 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
     private ViewPager mViewPager;
     private CategoriesPagerAdapter mAdapter;
     private DataLoaderHelper mRxFlowHelper;
+    private ImageView mCategoryImage;
 
+    @Inject
+    Picasso mPicasso;
+    private List<Category> mData;
+    private ViewPager.OnPageChangeListener mPageChangeListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,13 +65,30 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);
         mAdapter = new CategoriesPagerAdapter(getActivity().getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
+        mCategoryImage = (ImageView) view.findViewById(R.id.backdrop);
 
         // Give the SlidingTabLayout the ViewPager, this must be done AFTER the ViewPager has had
         // it's PagerAdapter set.
         mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         mSlidingTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mSlidingTabLayout.setupWithViewPager(mViewPager);
+        mPageChangeListener = new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+                mPicasso.with(mCategoryImage.getContext()).load(mData.get(position).getLogoUrl()).into(mCategoryImage);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        };
+        mViewPager.addOnPageChangeListener(mPageChangeListener);
     }
 
     @Override
@@ -89,8 +111,10 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
 
     @Override
     public void showContent(List<Category> data) {
+        this.mData = data;
         mAdapter.setCategories(data);
         mSlidingTabLayout.setupWithViewPager(mViewPager);
+        mPageChangeListener.onPageSelected(0);
     }
 
     @Override
