@@ -1,10 +1,10 @@
-package com.nabilhachicha.kc.home.jamesclasses.viewpager;
+package com.nabilhachicha.kc.view.header;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.nabilhachicha.kc.items.itemlist.ItemsFragment;
+import com.nabilhachicha.kc.view.itemlist.ItemsFragment;
 import com.nabilhachicha.kc.model.Category;
 
 import java.util.List;
@@ -37,7 +37,6 @@ public class CategoriesPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int i) {
         return ItemsFragment.newInstance(mCategories.get(i).getName());
     }
-
 
     public int getColorWithAlpha(float alpha, int baseColor) {
         int a = Math.min(255, Math.max(0, (int) (alpha * 255))) << 24;
