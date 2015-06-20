@@ -32,9 +32,6 @@ public class ItemsRecyclerAdapter extends RecyclerView.Adapter<ItemsRecyclerAdap
 
     public void replace(List<Venue> venues) {
         mDataset = venues;
-        mDataset.addAll(venues);
-        mDataset.addAll(venues);
-        mDataset.addAll(venues);
         notifyDataSetChanged();
     }
 
