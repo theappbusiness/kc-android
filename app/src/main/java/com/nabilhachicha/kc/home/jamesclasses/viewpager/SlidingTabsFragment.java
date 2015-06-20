@@ -70,6 +70,7 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
         mSlidingTabLayout = (TabLayout) view.findViewById(R.id.tabs);
         mSlidingTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         mSlidingTabLayout.setupWithViewPager(mViewPager);
+
     }
 
     @Override
