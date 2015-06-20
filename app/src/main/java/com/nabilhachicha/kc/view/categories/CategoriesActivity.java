@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.view.header;
+package com.nabilhachicha.kc.view.categories;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -24,7 +24,7 @@ import rx.Observable;
 /**
  * Created by jamesscott on 02/03/15.
  */
-public class SlidingTabsFragment extends BaseActivity implements DataLoaderHelper.ContentFlow<List<Category>> {
+public class CategoriesActivity extends BaseActivity implements DataLoaderHelper.ContentFlow<List<Category>> {
     private static final int CONTENT_VIEW_INDEX = 1;
 
     private ViewAnimator mViewAnimator;
@@ -50,7 +50,7 @@ public class SlidingTabsFragment extends BaseActivity implements DataLoaderHelpe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_categories);
         mViewAnimator = (ViewAnimator) findViewById(R.id.main_content_view_animator);
         mRxFlowHelper = new DataLoaderHelper(this);
 

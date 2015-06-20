@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.view.header;
+package com.nabilhachicha.kc.view.categories;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
