@@ -33,8 +33,6 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
     @Inject
     Database mDatabase;
 
-    private Toolbar mToolbar;
-
     private TabLayout mSlidingTabLayout;
 
     private ViewPager mViewPager;
@@ -57,8 +55,6 @@ public class SlidingTabsFragment extends BaseFragment implements DataLoaderHelpe
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        mToolbar = (Toolbar) view.findViewById(R.id.toolbar);
-        mToolbar.setTitle("App Name");
 
         // Get the ViewPager and set it's PagerAdapter so that it can display items
         mViewPager = (ViewPager) view.findViewById(R.id.viewpager);

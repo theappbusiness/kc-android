@@ -9,6 +9,7 @@
     android:layout_height="match_parent"
     card_view:cardCornerRadius="2dp"
     card_view:cardElevation="4dp"
+    android:layout_margin="5dp"
     android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
