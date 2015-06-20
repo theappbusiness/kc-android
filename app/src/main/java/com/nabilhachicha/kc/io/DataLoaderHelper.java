@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.nabilhachicha.kc.home;
+package com.nabilhachicha.kc.io;
 
 import rx.Observable;
 import rx.Subscription;

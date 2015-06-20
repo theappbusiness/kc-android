@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.items.itemlist;
+package com.nabilhachicha.kc.view.itemlist;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,9 +10,9 @@ import android.view.ViewGroup;
 
 import com.nabilhachicha.kc.R;
 import com.nabilhachicha.kc.data.Database;
-import com.nabilhachicha.kc.home.DataLoaderHelper;
+import com.nabilhachicha.kc.io.DataLoaderHelper;
 import com.nabilhachicha.kc.io.KcObservables;
-import com.nabilhachicha.kc.items.ItemDetailActivity;
+import com.nabilhachicha.kc.ItemDetailActivity;
 import com.nabilhachicha.kc.model.Venue;
 import com.nabilhachicha.kc.service.BackendOperations;
 import com.nabilhachicha.kc.utils.IntentExtras;
@@ -60,7 +60,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
