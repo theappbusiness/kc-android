@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.nabilhachicha.kc">
+    package="com.theappbusiness.kc">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -18,7 +18,7 @@
         android:required="true" />
 
     <application
-        android:name="com.nabilhachicha.kc.KcApp"
+        android:name="com.theappbusiness.kc.KcApp"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
@@ -37,7 +37,7 @@
         </activity>
 
         <activity
-            android:name=".ItemDetailActivity"
+            android:name="com.theappbusiness.kc.ItemDetailActivity"
             android:screenOrientation="portrait" />
 
         <!-- Google Maps API Key-->
