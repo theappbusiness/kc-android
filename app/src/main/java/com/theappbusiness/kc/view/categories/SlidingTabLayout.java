@@ -31,7 +31,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.TextView;
 
 /**
- * To be used with ViewPager to provide a theappbusiness indicator component which give constant feedback as to
+ * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
  * the user's scroll progress.
  * <p/>
  * To use the component, simply add it to your view hierarchy. Then in your
@@ -49,7 +49,7 @@ import android.widget.TextView;
 public class SlidingTabLayout extends HorizontalScrollView {
 
     /**
-     * Allows complete control over the colors drawn in the theappbusiness layout. Set with
+     * Allows complete control over the colors drawn in the tab layout. Set with
      * {@link #setCustomTabColorizer(TabColorizer)}.
      */
     public interface TabColorizer {
@@ -114,7 +114,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Sets the colors to be used for indicating the selected theappbusiness. These colors are treated as a
+     * Sets the colors to be used for indicating the selected tab. These colors are treated as a
      * circular array. Providing one color will mean that all tabs are indicated with the same color.
      */
     public void setSelectedIndicatorColors(int... colors) {
@@ -122,7 +122,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Sets the colors to be used for theappbusiness dividers. These colors are treated as a circular array.
+     * Sets the colors to be used for tab dividers. These colors are treated as a circular array.
      * Providing one color will mean that all tabs are indicated with the same color.
      */
     public void setDividerColors(int... colors) {
@@ -141,7 +141,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Set the custom layout to be inflated for the theappbusiness views.
+     * Set the custom layout to be inflated for the tab views.
      *
      * @param layoutResId Layout id to be inflated
      * @param textViewId  id of the {@link TextView} in the inflated view
@@ -153,7 +153,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
     /**
      * Sets the associated view pager. Note that the assumption here is that the pager content
-     * (number of tabs and theappbusiness titles) does not change after this call has been made.
+     * (number of tabs and tab titles) does not change after this call has been made.
      */
     public void setViewPager(ViewPager viewPager) {
         mTabStrip.removeAllViews();
@@ -166,7 +166,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     }
 
     /**
-     * Create a default view to be used for tabs. This is called if a custom theappbusiness view is not set via
+     * Create a default view to be used for tabs. This is called if a custom tab view is not set via
      * {@link #setCustomTabView(int, int)}.
      */
     protected TextView createDefaultTabView(Context context) {
@@ -185,7 +185,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-            // If we're running on ICS or newer, enable all-caps to match the Action Bar theappbusiness style
+            // If we're running on ICS or newer, enable all-caps to match the Action Bar tab style
             textView.setAllCaps(true);
         }
 
@@ -204,7 +204,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
             TextView tabTitleView = null;
 
             if (mTabViewLayoutId != 0) {
-                // If there is a custom theappbusiness view layout id set, try and inflate it
+                // If there is a custom tab view layout id set, try and inflate it
                 tabView = LayoutInflater.from(getContext()).inflate(mTabViewLayoutId, mTabStrip,
                         false);
                 tabTitleView = (TextView) tabView.findViewById(mTabViewTextViewId);

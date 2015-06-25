@@ -37,7 +37,7 @@
         </activity>
 
         <activity
-            android:name="com.theappbusiness.kc.ItemDetailActivity"
+            android:name=".ItemDetailActivity"
             android:screenOrientation="portrait" />
 
         <!-- Google Maps API Key-->
