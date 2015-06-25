@@ -1,4 +1,4 @@
-package com.nabilhachicha.kc.view.header;
+package com.nabilhachicha.kc.view.categories;
 
 /*
  * Copyright (C) 2013 The Android Open Source Project

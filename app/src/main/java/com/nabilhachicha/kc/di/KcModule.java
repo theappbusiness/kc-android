@@ -20,7 +20,7 @@ package com.nabilhachicha.kc.di;
 import android.app.Application;
 
 import com.nabilhachicha.kc.KcApp;
-import com.nabilhachicha.kc.view.header.SlidingTabsFragment;
+import com.nabilhachicha.kc.view.categories.CategoriesActivity;
 import com.nabilhachicha.kc.ItemDetailActivity;
 import com.nabilhachicha.kc.view.itemlist.ItemsFragment;
 
@@ -40,7 +40,7 @@ import dagger.Provides;
                 KcApp.class,
                 ItemDetailActivity.class,
                 ItemsFragment.class,
-                SlidingTabsFragment.class,
+                CategoriesActivity.class,
         }
 )
 public final class KcModule {

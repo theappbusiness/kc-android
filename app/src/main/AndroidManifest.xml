@@ -23,21 +23,18 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".KingsCrossActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
 
         <!-- Crashlytics Key -->
         <meta-data
             android:name="com.crashlytics.ApiKey"
             android:value="495cb7d8ea2661a24b8ca53ca19612f9ab22f206" />
+
+        <activity android:name=".view.categories.CategoriesActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ItemDetailActivity"
