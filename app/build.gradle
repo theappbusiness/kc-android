@@ -1,14 +1,4 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-        mavenCentral()
-    }
 
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.+'
-        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.4'
-    }
-}
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
 apply plugin: 'com.neenbedankt.android-apt'
@@ -21,7 +11,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 
 ext {
-    kcProperties = new Properties()
+    kcProperties =  new Properties()
     kcProperties.load(new FileInputStream(rootProject.file("keystore/kc-details.properties")));
 }
 
@@ -42,13 +32,13 @@ def getKeyPassword = { ->
 }
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "22.0.1"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.theappbusiness.kc"
         minSdkVersion 14
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "BACKEND_ENDPOINT", "\"${kc_backend_endpoint}\""
