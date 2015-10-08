@@ -21,9 +21,9 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
-import org.apache.http.HttpStatus;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 
 /**
  * Created by Nabil Hachicha on 06/12/14.
@@ -46,7 +46,7 @@ public class ConnectionUtils {
     public boolean isConnected() {
         try {
             Response response = okHttpClient.newCall(request).execute();
-            return HttpStatus.SC_NO_CONTENT == response.code();
+            return HttpURLConnection.HTTP_NO_CONTENT == response.code();
         } catch (IOException e) {
             //QLog.w("isConnected error", e);
             return false;
