@@ -15,35 +15,19 @@
  */
 
 
-package com.theappbusiness.kc.di;
+package com.theappbusiness.kc.di.modules;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.theappbusiness.kc.KcApp;
-import com.theappbusiness.kc.view.categories.CategoriesActivity;
-import com.theappbusiness.kc.ItemDetailActivity;
-import com.theappbusiness.kc.view.itemlist.ItemsFragment;
-
-import javax.inject.Singleton;
+import com.theappbusiness.kc.di.scopes.PerApplication;
 
 import dagger.Module;
 import dagger.Provides;
 
-/**
- * Created by Nabil on 06/12/14.
- */
-@Module(
-        includes = {
-                DataModule.class
-        },
-        injects = {
-                KcApp.class,
-                ItemDetailActivity.class,
-                ItemsFragment.class,
-                CategoriesActivity.class,
-        }
-)
-public final class KcModule {
+@Module
+public class KcModule {
     private final KcApp app;
 
     public KcModule(KcApp app) {
@@ -51,8 +35,13 @@ public final class KcModule {
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     Application provideApplication() {
+        return app;
+    }
+
+    @Provides
+    Context provideContenxt() {
         return app;
     }
 }
