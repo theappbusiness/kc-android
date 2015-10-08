@@ -21,6 +21,7 @@ import android.content.SharedPreferences;
 
 import com.theappbusiness.kc.data.Database;
 import com.theappbusiness.kc.data.DatabaseImpl;
+import com.theappbusiness.kc.di.modules.ApiModule;
 import com.theappbusiness.kc.utils.ConnectionUtils;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;

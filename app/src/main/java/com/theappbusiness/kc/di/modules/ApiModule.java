@@ -15,13 +15,12 @@
  */
 
 
-package com.theappbusiness.kc.di;
+package com.theappbusiness.kc.di.modules;
 
 import com.theappbusiness.kc.BuildConfig;
+import com.theappbusiness.kc.di.qualifiers.ForApiUrl;
 import com.theappbusiness.kc.service.BackendOperations;
 import com.squareup.okhttp.OkHttpClient;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -30,41 +29,48 @@ import retrofit.Endpoints;
 import retrofit.RestAdapter;
 import retrofit.client.Client;
 import retrofit.client.OkClient;
+import com.theappbusiness.kc.di.scopes.PerApplication;
 
 /**
  * Created by Nabil Hachicha on 06/12/14.
  */
-@Module(
-        complete = false,
-        library = true
-)
+@Module
 public final class ApiModule {
     public static final String PRODUCTION_API_URL = BuildConfig.BACKEND_ENDPOINT;
 
+
     @Provides
-    @Singleton
-    Endpoint provideEndpoint() {
-        return Endpoints.newFixedEndpoint(PRODUCTION_API_URL);
+    @ForApiUrl
+    @PerApplication
+    String provideApiUrl() {
+        return PRODUCTION_API_URL;
     }
 
     @Provides
-    @Singleton
+    @PerApplication
+    Endpoint provideEndpoint(@ForApiUrl String apiUrl) {
+        return Endpoints.newFixedEndpoint(apiUrl);
+    }
+
+    @Provides
     Client provideClient(OkHttpClient client) {
         return new OkClient(client);
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     RestAdapter provideRestAdapter(Endpoint endpoint, Client client) {
-        return new RestAdapter.Builder() //
+        RestAdapter.Builder builder = new RestAdapter.Builder() //
                 .setClient(client) //
-                .setEndpoint(endpoint) //
-                .setLogLevel(RestAdapter.LogLevel.BASIC)//TODO remove in production
-                .build();
+                .setEndpoint(endpoint); //
+                if(BuildConfig.DEBUG) {
+                    builder.setLogLevel(RestAdapter.LogLevel.BASIC);
+                }
+                return builder.build();
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     BackendOperations provideNewBackendService(RestAdapter restAdapter) {
         return restAdapter.create(BackendOperations.class);
     }
