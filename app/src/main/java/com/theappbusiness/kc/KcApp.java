@@ -17,7 +17,6 @@
 package com.theappbusiness.kc;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
 import com.theappbusiness.kc.di.components.DaggerKcComponent;
@@ -30,11 +29,13 @@ import io.fabric.sdk.android.Fabric;
  * Created by Nabil Hachicha on 06/12/14.
  */
 public class KcApp extends Application {
+    private static KcApp sApp;
     private KcComponent mComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sApp = this;
         Fabric.with(this, new Crashlytics());
         buildObjectGraphAndInject();
     }
@@ -50,7 +51,7 @@ public class KcApp extends Application {
         return mComponent;
     }
 
-    public static KcApp get(Context context) {
-        return (KcApp) context.getApplicationContext();
+    public static KcApp get() {
+        return sApp;
     }
 }
