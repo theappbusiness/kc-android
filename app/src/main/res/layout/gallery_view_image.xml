@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<com.nabilhachicha.kc.view.GalleryItemView
+<com.theappbusiness.kc.view.GalleryItemView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/gallery_item_background"
     >
-  <com.nabilhachicha.kc.view.ForegroundImageView
+  <com.theappbusiness.kc.view.ForegroundImageView
       android:id="@+id/gallery_image_image"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
@@ -27,4 +27,4 @@
       tools:text="This Is The Title"
       style="@style/Widget.U2020.GalleryImage"
       />
-</com.nabilhachicha.kc.view.GalleryItemView>
+</com.theappbusiness.kc.view.GalleryItemView>
