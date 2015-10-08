@@ -11,7 +11,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 
 ext {
-    kcProperties =  new Properties()
+    kcProperties = new Properties()
     kcProperties.load(new FileInputStream(rootProject.file("keystore/kc-details.properties")));
 }
 
