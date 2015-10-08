@@ -20,6 +20,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
@@ -43,7 +44,7 @@ import javax.inject.Inject;
  * Details Activity for a {@link Venue}
  * Created by Nabil on 11/12/14.
  */
-public class ItemDetailActivity extends BaseActivity implements OnMapReadyCallback {
+public class ItemDetailActivity extends AppCompatActivity implements OnMapReadyCallback {
     private static final float MAP_ASPECT_RATIO = 16f / 9f;
     private static final int MAP_ZOOM = 15;
     private static final String ACTION_DIAL_URI_SCHEME = "tel:";

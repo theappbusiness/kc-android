@@ -1,7 +1,7 @@
 package com.theappbusiness.kc.di.components;
 
 import com.theappbusiness.kc.KcApp;
-import com.theappbusiness.kc.di.DataModule;
+import com.theappbusiness.kc.di.modules.DataModule;
 import com.theappbusiness.kc.di.modules.ApiModule;
 import com.theappbusiness.kc.di.modules.CategoriesModule;
 import com.theappbusiness.kc.di.modules.KcModule;

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.theappbusiness.kc.di;
+package com.theappbusiness.kc.di.modules;
 
 import android.app.Application;
 import android.content.SharedPreferences;
