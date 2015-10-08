@@ -119,3 +119,4 @@ gradle-app.setting
 
 #keystore
 keystore/
+kc_debug.keystore
