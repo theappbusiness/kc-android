@@ -20,33 +20,34 @@ import android.app.Application;
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
-import com.theappbusiness.kc.di.Modules;
+import com.theappbusiness.kc.di.components.DaggerKcComponent;
+import com.theappbusiness.kc.di.components.KcComponent;
+import com.theappbusiness.kc.di.modules.KcModule;
 
-import dagger.ObjectGraph;
 import io.fabric.sdk.android.Fabric;
 
 /**
  * Created by Nabil Hachicha on 06/12/14.
  */
 public class KcApp extends Application {
-    private ObjectGraph objectGraph;
+    private KcComponent mComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
         Fabric.with(this, new Crashlytics());
-
         buildObjectGraphAndInject();
     }
 
     public void buildObjectGraphAndInject() {
-        objectGraph = ObjectGraph.create(Modules.list(this));
-        objectGraph.inject(this);
+        mComponent = DaggerKcComponent.builder()
+                .kcModule(new KcModule(this))
+                .build();
+        mComponent.inject(this);
     }
 
-    public void inject(Object o) {
-        objectGraph.inject(o);
+    public KcComponent getComponent() {
+        return mComponent;
     }
 
     public static KcApp get(Context context) {
