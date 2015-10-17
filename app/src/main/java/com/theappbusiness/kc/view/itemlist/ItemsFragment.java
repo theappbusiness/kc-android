@@ -12,8 +12,10 @@ import android.widget.ViewAnimator;
 import com.theappbusiness.kc.ItemDetailActivity;
 import com.theappbusiness.kc.R;
 import com.theappbusiness.kc.data.Database;
-import com.theappbusiness.kc.io.DataLoaderHelper;
+import com.theappbusiness.kc.io.CategoriesManagerImpl;
 import com.theappbusiness.kc.io.KcObservables;
+import com.theappbusiness.kc.io.Manager;
+import com.theappbusiness.kc.io.VenuesController;
 import com.theappbusiness.kc.model.Venue;
 import com.theappbusiness.kc.service.BackendOperations;
 import com.theappbusiness.kc.utils.IntentExtras;
@@ -28,8 +30,7 @@ import retrofit.RestAdapter;
 import rx.Observable;
 import rx.schedulers.Schedulers;
 
-
-public class ItemsFragment extends BaseFragment implements DataLoaderHelper.ContentFlow<List<Venue>> {
+public class ItemsFragment extends BaseFragment implements VenuesController {
     private static final int CONTENT_VIEW_INDEX = 1;
     private static final String CATEGORY_KEY = "category";
 
@@ -49,7 +50,7 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
      * The recycle view
      */
     private RecyclerView mRecyclerView;
-    private DataLoaderHelper mRxFlowHelper;
+    private Manager mRxFlowHelper;
     private String mCategory;
 
     public static ItemsFragment newInstance(String category) {
@@ -105,7 +106,7 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
         super.onViewCreated(view, savedInstanceState);
         // Fetch remote data
         mRecyclerView.setAdapter(mAdapter);
-        mRxFlowHelper = new DataLoaderHelper(this);
+        mRxFlowHelper = new CategoriesManagerImpl();
     }
 
     @Override
@@ -119,22 +120,6 @@ public class ItemsFragment extends BaseFragment implements DataLoaderHelper.Cont
             mViewAnimator.setDisplayedChild(CONTENT_VIEW_INDEX);
         }
         mAdapter.replace(data);
-    }
-
-    @Override
-    public void updateContent(List<Venue> data) {
-        showContent(data);
-    }
-
-    @Override
-    public boolean isCacheAvailable() {
-        //return mDatabase.isEmpty();
-        return false;
-    }
-
-    @Override
-    public List<Venue> queryCache() {
-        return mDatabase.getVenues(mCategory);
     }
 
     @Override

@@ -19,6 +19,7 @@ package com.theappbusiness.kc.di.modules;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.res.Resources;
 
 import com.theappbusiness.kc.KcApp;
 import com.theappbusiness.kc.di.scopes.PerApplication;
@@ -43,5 +44,11 @@ public class KcModule {
     @Provides
     Context provideContenxt() {
         return app;
+    }
+
+    @Provides
+    @PerApplication
+    Resources provideResouces() {
+        return app.getResources();
     }
 }
