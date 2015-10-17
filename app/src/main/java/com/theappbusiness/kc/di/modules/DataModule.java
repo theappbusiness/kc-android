@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.theappbusiness.kc.di;
+package com.theappbusiness.kc.di.modules;
 
 import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.theappbusiness.kc.data.Database;
 import com.theappbusiness.kc.data.DatabaseImpl;
+import com.theappbusiness.kc.di.scopes.PerApplication;
 import com.theappbusiness.kc.utils.ConnectionUtils;
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
@@ -31,7 +32,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -41,29 +41,25 @@ import static android.content.Context.MODE_PRIVATE;
 /**
  * Created by Nabil Hachicha on 06/12/14.
  */
-@Module(
-        includes = ApiModule.class,
-        complete = false,
-        library = true
-)
+@Module
 public final class DataModule {
     static final int DISK_CACHE_SIZE = 10 * 1024 * 1024; // 10MB
     static final int SOCKET_TIMEOUT = 10;
 
     @Provides
-    @Singleton
+    @PerApplication
     SharedPreferences provideSharedPreferences(Application app) {
         return app.getSharedPreferences("kc", MODE_PRIVATE);
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     OkHttpClient provideOkHttpClient(Application app) {
         return createOkHttpClient(app);
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     Picasso providePicasso(Application app, OkHttpClient client) {
         return new Picasso.Builder(app)
                 .downloader(new OkHttpDownloader(client))
@@ -88,12 +84,12 @@ public final class DataModule {
     }
 
     @Provides
-    @Singleton
+    @PerApplication
     Database provideDatabase (Application application) {
         return new DatabaseImpl(application);
     }
 
-    @Provides @Singleton
+    @Provides @PerApplication
     ConnectionUtils provideConnectionUtils (OkHttpClient client) {
         return new ConnectionUtils(client);
     }

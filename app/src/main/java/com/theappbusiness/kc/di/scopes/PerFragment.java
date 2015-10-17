@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package com.theappbusiness.kc;
+package com.theappbusiness.kc.di.scopes;
 
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import java.lang.annotation.Retention;
+
+import javax.inject.Scope;
+
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Created by Nabil Hachicha on 06/12/14.
+ * Dagger fragment scope. Used in fragment modules to indicate that the scope of the injected object
+ * is a fragment
  */
-public abstract class BaseActivity extends AppCompatActivity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Perform injection so that when this call returns, all dependencies will be available for use.
-        ((KcApp) getApplication()).inject(this);
-    }
+@Scope
+@Retention(RUNTIME)
+public @interface PerFragment {
 }

@@ -3,19 +3,22 @@ package com.theappbusiness.kc.view.categories;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ViewAnimator;
 
-import com.theappbusiness.kc.BaseActivity;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import com.theappbusiness.kc.KcApp;
 import com.theappbusiness.kc.R;
 import com.theappbusiness.kc.data.Database;
+import com.theappbusiness.kc.di.components.CategoriesComponent;
+import com.theappbusiness.kc.di.modules.CategoriesModule;
 import com.theappbusiness.kc.io.DataLoaderHelper;
 import com.theappbusiness.kc.io.KcObservables;
 import com.theappbusiness.kc.model.Category;
 import com.theappbusiness.kc.service.BackendOperations;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,9 +29,11 @@ import rx.Observable;
 /**
  * Created by jamesscott on 02/03/15.
  */
-public class CategoriesActivity extends BaseActivity implements DataLoaderHelper.ContentFlow<List<Category>> {
+public class CategoriesActivity extends AppCompatActivity implements DataLoaderHelper.ContentFlow<List<Category>> {
     private static final int CONTENT_VIEW_INDEX = 1;
 
+
+    private CategoriesComponent mComponent;
     private ViewAnimator mViewAnimator;
 
     @Inject
@@ -53,6 +58,10 @@ public class CategoriesActivity extends BaseActivity implements DataLoaderHelper
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories);
+
+        mComponent = KcApp.get().getComponent().plus(new CategoriesModule());
+        mComponent.inject(this);
+
         mViewAnimator = (ViewAnimator) findViewById(R.id.main_content_view_animator);
         mRxFlowHelper = new DataLoaderHelper(this);
 
