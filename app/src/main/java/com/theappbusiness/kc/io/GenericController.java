@@ -3,7 +3,7 @@ package com.theappbusiness.kc.io;
 import rx.Observable;
 
 /**
- * Created by swav on 09/10/15.
+ * Generic controller for all our needs
  */
 public interface GenericController<T> {
 

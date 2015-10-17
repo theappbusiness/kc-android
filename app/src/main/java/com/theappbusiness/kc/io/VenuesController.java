@@ -7,7 +7,7 @@ import java.util.List;
 import rx.Observable;
 
 /**
- * Created by swav on 09/10/15.
+ * Concrete interface for {@link Venue} controller. We cannot use generics directly in Dagger.
  */
 public interface VenuesController extends GenericController<List<Venue>> {
     void showError();
@@ -15,4 +15,6 @@ public interface VenuesController extends GenericController<List<Venue>> {
     Observable<List<Venue>> queryBackend();
 
     void showContent(List<Venue> categories);
+
+    void showVenue(Venue venue);
 }

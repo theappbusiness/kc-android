@@ -31,9 +31,7 @@ import retrofit.client.Client;
 import retrofit.client.OkClient;
 import com.theappbusiness.kc.di.scopes.PerApplication;
 
-/**
- * Created by Nabil Hachicha on 06/12/14.
- */
+
 @Module
 public final class ApiModule {
     public static final String PRODUCTION_API_URL = BuildConfig.BACKEND_ENDPOINT;

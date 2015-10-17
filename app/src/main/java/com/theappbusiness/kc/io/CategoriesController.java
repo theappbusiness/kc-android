@@ -7,7 +7,7 @@ import java.util.List;
 import rx.Observable;
 
 /**
- * Created by swav on 09/10/15.
+ * Concrete interface for {@link Category} controller. We cannot use generics directly in Dagger.
  */
 public interface CategoriesController extends GenericController<List<Category>> {
     void showError();

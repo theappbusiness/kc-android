@@ -12,7 +12,9 @@ import android.widget.ViewAnimator;
 import com.theappbusiness.kc.ItemDetailActivity;
 import com.theappbusiness.kc.R;
 import com.theappbusiness.kc.data.Database;
-import com.theappbusiness.kc.io.CategoriesManagerImpl;
+import com.theappbusiness.kc.di.components.VenuesComponent;
+import com.theappbusiness.kc.di.modules.VenuesModule;
+import com.theappbusiness.kc.di.qualifiers.ForVenues;
 import com.theappbusiness.kc.io.KcObservables;
 import com.theappbusiness.kc.io.Manager;
 import com.theappbusiness.kc.io.VenuesController;
@@ -21,6 +23,7 @@ import com.theappbusiness.kc.service.BackendOperations;
 import com.theappbusiness.kc.utils.IntentExtras;
 import com.theappbusiness.kc.view.BaseFragment;
 import com.squareup.picasso.Picasso;
+import com.theappbusiness.kc.view.categories.CategoriesActivity;
 
 import java.util.List;
 
@@ -34,6 +37,8 @@ public class ItemsFragment extends BaseFragment implements VenuesController {
     private static final int CONTENT_VIEW_INDEX = 1;
     private static final String CATEGORY_KEY = "category";
 
+    private VenuesComponent mComponent;
+
     @Inject
     BackendOperations mBackendOperations;
     @Inject
@@ -44,13 +49,19 @@ public class ItemsFragment extends BaseFragment implements VenuesController {
     Picasso mPicasso;
 
     private ViewAnimator mViewAnimator;
-    private ItemsRecyclerAdapter mAdapter;
+
+    @Inject
+    ItemsRecyclerAdapterImpl mAdapter;
 
     /**
      * The recycle view
      */
     private RecyclerView mRecyclerView;
-    private Manager mRxFlowHelper;
+
+    @Inject
+    @ForVenues
+    Manager mVenueManager;
+
     private String mCategory;
 
     public static ItemsFragment newInstance(String category) {
@@ -64,28 +75,26 @@ public class ItemsFragment extends BaseFragment implements VenuesController {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mCategory = getArguments().getString(CATEGORY_KEY);
-        mAdapter = new ItemsRecyclerAdapter(mPicasso);
-        mAdapter.SetOnItemClickListener(onItemClickListener);
-    }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        mRxFlowHelper.onStart();
+        mComponent = ((CategoriesActivity)getActivity()).getComponent().plus(new VenuesModule(this));
+        mComponent.inject(this);
+        mCategory = getArguments().getString(CATEGORY_KEY);
+        mVenueManager.onStart();
     }
 
     @Override
     public void onStop() {
-        mRxFlowHelper.onStop();
+        mVenueManager.onStop();
+        mComponent = null;
         super.onStop();
     }
 
-    ItemsRecyclerAdapter.OnItemClickListener onItemClickListener = venue -> {
+    @Override
+    public void showVenue(Venue venue) {
         Intent intent = new Intent(getActivity(), ItemDetailActivity.class);
         intent.putExtra(IntentExtras.EXTRA_ITEM_KEY, venue);
         startActivity(intent);
-    };
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,7 +115,6 @@ public class ItemsFragment extends BaseFragment implements VenuesController {
         super.onViewCreated(view, savedInstanceState);
         // Fetch remote data
         mRecyclerView.setAdapter(mAdapter);
-        mRxFlowHelper = new CategoriesManagerImpl();
     }
 
     @Override
@@ -119,7 +127,7 @@ public class ItemsFragment extends BaseFragment implements VenuesController {
         if (mViewAnimator.getDisplayedChild() != CONTENT_VIEW_INDEX) {
             mViewAnimator.setDisplayedChild(CONTENT_VIEW_INDEX);
         }
-        mAdapter.replace(data);
+        mAdapter.setData(data);
     }
 
     @Override

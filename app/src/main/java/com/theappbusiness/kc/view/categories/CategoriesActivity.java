@@ -8,6 +8,7 @@ import com.theappbusiness.kc.R;
 import com.theappbusiness.kc.data.Database;
 import com.theappbusiness.kc.di.components.CategoriesComponent;
 import com.theappbusiness.kc.di.modules.CategoriesModule;
+import com.theappbusiness.kc.di.qualifiers.ForCategories;
 import com.theappbusiness.kc.io.CategoriesController;
 import com.theappbusiness.kc.io.CategoriesManagerImpl;
 import com.theappbusiness.kc.io.KcObservables;
@@ -39,6 +40,7 @@ public class CategoriesActivity extends AppCompatActivity implements CategoriesC
     Database mDatabase;
 
     @Inject
+    @ForCategories
     Manager mCategoriesHelper;
 
 
@@ -79,5 +81,13 @@ public class CategoriesActivity extends AppCompatActivity implements CategoriesC
     @Override
     public void showContent(List<Category> categories) {
         categoriesPresentation.showContent(categories);
+    }
+
+    /**
+     * Used by fragment to extend component
+     * @return instance of component
+     */
+    public CategoriesComponent getComponent() {
+        return mComponent;
     }
 }
