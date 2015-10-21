@@ -14,19 +14,20 @@
  * limitations under the License.
  */
 
-package com.theappbusiness.kc.di.scopes;
+package com.theappbusiness.kc.io;
 
-import java.lang.annotation.Retention;
+import javax.inject.Inject;
 
-import javax.inject.Scope;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/**
- * Dagger fragment scope. Used in fragment modules to indicate that the scope of the injected object
- * is a fragment
- */
-@Scope
-@Retention(RUNTIME)
-public @interface PerFragment {
+public class CategoriesManagerImpl extends Manager {
+
+    @Inject
+    public CategoriesManagerImpl(CategoriesController flowListener) {
+        this.flowListener = flowListener;
+    }
+
 }

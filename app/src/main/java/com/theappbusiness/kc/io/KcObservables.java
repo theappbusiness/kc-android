@@ -34,21 +34,11 @@ import rx.functions.Func1;
 public class KcObservables {
 
     public static Observable<List<Category>> getCategories(final BackendOperations operations, final Database database) {
-        return operations.getCategories().flatMap(new Func1<CategoriesResponse, Observable<? extends List<Category>>>() {
-            @Override
-            public Observable<? extends List<Category>> call(CategoriesResponse categoriesResponse) {
-                return Observable.just(categoriesResponse.get());
-            }
-        });
+        return operations.getCategories().flatMap(categoriesResponse -> Observable.just(categoriesResponse.get()));
     }
 
 
     public static Observable<List<Venue>> getItemsByCategory(final BackendOperations operations, final Database database, String category) {
-        return operations.getVenuesByCategory(category).flatMap(new Func1<VenuesResponse, Observable<List<Venue>>>() {
-            @Override
-            public Observable<List<Venue>> call(VenuesResponse venuesResponse) {
-                return Observable.just(venuesResponse.getVenues());
-            }
-        });
+        return operations.getVenuesByCategory(category).flatMap(venuesResponse -> Observable.just(venuesResponse.getVenues()));
     }
 }
