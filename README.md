@@ -19,7 +19,7 @@ Build & Install
 
 Libraries 
 ---------
-The project uses `RxJava` & `Retrofit` for network/REST calls , `Dagger` for *Dependency Injection* & `SnappyDB` for the *NoSQL* persistence
+The project uses `RxJava` & `Retrofit` for com.theappbusiness.kc.network/REST calls , `Dagger` for *Dependency Injection* & `SnappyDB` for the *NoSQL* persistence
  
     - 'com.etsy.android.grid:library:1.0.5'
     - 'com.squareup.picasso:picasso:2.3.4'

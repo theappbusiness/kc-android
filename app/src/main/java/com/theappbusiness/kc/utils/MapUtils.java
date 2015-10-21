@@ -9,7 +9,7 @@ import com.theappbusiness.kc.model.Venue;
 /**
  * Created by voicuklein on 25/04/15.
  */
-public class MapUtils {
+public final class MapUtils {
 
     public static Uri getMapIntentUri(Venue venue) {
         StringBuilder builder = new StringBuilder()
@@ -26,5 +26,8 @@ public class MapUtils {
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, MapUtils.getMapIntentUri(venue));
         mapIntent.setPackage("com.google.android.apps.maps");
         activity.startActivity(mapIntent);
+    }
+
+    private MapUtils() {
     }
 }

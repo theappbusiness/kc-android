@@ -29,7 +29,7 @@
             android:name="com.crashlytics.ApiKey"
             android:value="495cb7d8ea2661a24b8ca53ca19612f9ab22f206" />
 
-        <activity android:name=".view.categories.CategoriesActivity">
+        <activity android:name=".controllers.categories.CategoriesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -37,7 +37,7 @@
         </activity>
 
         <activity
-            android:name=".ItemDetailActivity"
+            android:name=".controllers.venue.VenueActivity"
             android:screenOrientation="portrait" />
 
         <!-- Google Maps API Key-->

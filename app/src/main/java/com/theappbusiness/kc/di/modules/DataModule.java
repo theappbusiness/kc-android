@@ -16,81 +16,22 @@
 
 package com.theappbusiness.kc.di.modules;
 
-import android.app.Application;
-import android.content.SharedPreferences;
-
-import com.theappbusiness.kc.data.Database;
-import com.theappbusiness.kc.data.DatabaseImpl;
+import com.squareup.okhttp.OkHttpClient;
 import com.theappbusiness.kc.di.scopes.PerApplication;
 import com.theappbusiness.kc.utils.ConnectionUtils;
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.picasso.OkHttpDownloader;
-import com.squareup.picasso.Picasso;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 
 import dagger.Module;
 import dagger.Provides;
-
-import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Nabil Hachicha on 06/12/14.
  */
 @Module
 public final class DataModule {
-    static final int DISK_CACHE_SIZE = 10 * 1024 * 1024; // 10MB
-    static final int SOCKET_TIMEOUT = 10;
 
     @Provides
     @PerApplication
-    SharedPreferences provideSharedPreferences(Application app) {
-        return app.getSharedPreferences("kc", MODE_PRIVATE);
-    }
-
-    @Provides
-    @PerApplication
-    OkHttpClient provideOkHttpClient(Application app) {
-        return createOkHttpClient(app);
-    }
-
-    @Provides
-    @PerApplication
-    Picasso providePicasso(Application app, OkHttpClient client) {
-        return new Picasso.Builder(app)
-                .downloader(new OkHttpDownloader(client))
-                .build();
-    }
-
-    static OkHttpClient createOkHttpClient(Application app) {
-        OkHttpClient client = new OkHttpClient();
-        client.setConnectTimeout(SOCKET_TIMEOUT, TimeUnit.SECONDS);
-        client.setReadTimeout(SOCKET_TIMEOUT, TimeUnit.SECONDS);
-
-        // Install an HTTP cache in the application cache directory.
-        try {
-            File cacheDir = new File(app.getCacheDir(), "http");
-            Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
-            client.setCache(cache);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return client;
-    }
-
-    @Provides
-    @PerApplication
-    Database provideDatabase (Application application) {
-        return new DatabaseImpl(application);
-    }
-
-    @Provides @PerApplication
-    ConnectionUtils provideConnectionUtils (OkHttpClient client) {
+    ConnectionUtils provideConnectionUtils(OkHttpClient client) {
         return new ConnectionUtils(client);
     }
 
