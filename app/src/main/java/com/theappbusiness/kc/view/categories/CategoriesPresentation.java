@@ -13,5 +13,5 @@ public interface CategoriesPresentation {
 
     void init(View view);
 
-    void showContent(List<Category> data);
+    void showCategories(List<Category> data);
 }

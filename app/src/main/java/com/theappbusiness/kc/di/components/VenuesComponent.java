@@ -1,13 +1,14 @@
 package com.theappbusiness.kc.di.components;
 
-import com.theappbusiness.kc.di.modules.VenuesModule;
-import com.theappbusiness.kc.di.scopes.PerActivity;
-import com.theappbusiness.kc.view.itemlist.ItemsFragment;
+import com.theappbusiness.kc.di.modules.venues.VenuesModule;
+import com.theappbusiness.kc.di.modules.venues.VenuesPresentationModule;
+import com.theappbusiness.kc.di.scopes.PerFragment;
+import com.theappbusiness.kc.controllers.venues.VenuesFragment;
 
 import dagger.Subcomponent;
 
-@Subcomponent(modules = {VenuesModule.class})
-@PerActivity
+@Subcomponent(modules = {VenuesModule.class, VenuesPresentationModule.class})
+@PerFragment
 public interface VenuesComponent {
-    void inject(ItemsFragment fragment);
+    void inject(VenuesFragment fragment);
 }

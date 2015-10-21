@@ -25,9 +25,7 @@ import com.theappbusiness.kc.di.modules.KcModule;
 
 import io.fabric.sdk.android.Fabric;
 
-/**
- * Created by Nabil Hachicha on 06/12/14.
- */
+
 public class KcApp extends Application {
     private static KcApp sApp;
     private KcComponent mComponent;

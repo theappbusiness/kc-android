@@ -21,34 +21,63 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Resources;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.picasso.OkHttpDownloader;
+import com.squareup.picasso.Picasso;
 import com.theappbusiness.kc.KcApp;
+import com.theappbusiness.kc.di.qualifiers.ForApplication;
 import com.theappbusiness.kc.di.scopes.PerApplication;
+import com.theappbusiness.kc.io.ImageHelper;
+import com.theappbusiness.kc.io.ImageHelperImpl;
+import com.theappbusiness.kc.io.ImageRequest;
+import com.theappbusiness.kc.io.ImageRequestImpl;
 
 import dagger.Module;
 import dagger.Provides;
 
 @Module
 public class KcModule {
-    private final KcApp app;
+    private final KcApp mApp;
 
     public KcModule(KcApp app) {
-        this.app = app;
+        mApp = app;
     }
 
     @Provides
     @PerApplication
     Application provideApplication() {
-        return app;
+        return mApp;
     }
 
     @Provides
-    Context provideContenxt() {
-        return app;
+    @ForApplication
+    @PerApplication
+    Context provideContext() {
+        return mApp;
     }
 
     @Provides
     @PerApplication
-    Resources provideResouces() {
-        return app.getResources();
+    Resources provideResources() {
+        return mApp.getResources();
+    }
+
+    @Provides
+    @PerApplication
+    ImageHelper provideImageHelper(ImageHelperImpl imageHelper) {
+        return imageHelper;
+    }
+
+    @Provides
+    @PerApplication
+    Picasso providePicasso(@ForApplication Context context, OkHttpClient client) {
+        return new Picasso.Builder(context)
+                .downloader(new OkHttpDownloader(client))
+                .build();
+    }
+
+    @Provides
+    ImageRequest provideImageRequest(ImageRequestImpl imageRequest) {
+        return imageRequest;
     }
 }
